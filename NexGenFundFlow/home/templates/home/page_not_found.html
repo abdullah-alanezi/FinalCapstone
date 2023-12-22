@@ -1,0 +1,13 @@
+{% extends 'home/base.html' %}
+
+{% block title %}
+<title>Page 404</title>
+{% endblock %}
+
+{% block body %}
+{% if massage %}
+<div class="alert alert-danger" role="alert">
+    {{massage}}
+  </div>
+{% endif %}
+{% endblock %}
