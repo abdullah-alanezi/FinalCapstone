@@ -25,4 +25,5 @@ urlpatterns = [
     path('fund/',include('fund.urls')),
     path('startup/',include('startup.urls')),
     path('account/',include('user.urls')),
+    path('contract/',include('contract.urls')),
 ]+ static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

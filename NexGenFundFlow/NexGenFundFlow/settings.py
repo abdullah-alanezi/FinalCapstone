@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'fund',
     'user',
     'startup',
-    'home'
+    'home',
+    'contract',
 ]
 
 MIDDLEWARE = [
