@@ -14,7 +14,7 @@ class InvestorProfile(models.Model):
     inverstor_bio = models.TextField()
     inverstor_city = models.CharField(max_length=255)
     inverstor_LinkedIn = models.URLField()
-    invested_campany =  models.CharField(max_length=56,choices=invested_campanies,default='0')
+    invested_campany =  models.CharField(max_length=56,choices=invested_campanies.choices,default='0')
 
 
 
