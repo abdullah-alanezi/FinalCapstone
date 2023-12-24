@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 
 class InverstorProfile(models.Model):
     invested_campanies =models.TextChoices('invested_campany',['1','2','3','4','5','6','7','8','9','10'])
+
     user = models.OneToOneField(User,on_delete = models.CASCADE)
     inverstor_phone_number = models.CharField(max_length=10)
     specialization = models.CharField(max_length=255)
@@ -19,6 +20,7 @@ class InverstorProfile(models.Model):
 
 
 class StrtatupMangaerProfile(models.Model):
+    
     user = models.OneToOneField(User,on_delete=models.CASCADE)
     position = models.CharField(max_length=255)
     manager_phone_number = models.CharField(max_length=10)
