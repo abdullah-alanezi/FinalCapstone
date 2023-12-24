@@ -6,3 +6,10 @@ from django.http import HttpRequest,HttpResponse
 def home_view(request:HttpRequest):
 
     return render(request,'home/home.html')
+
+
+def page_not_found_view(request:HttpRequest):
+
+    return render(request,'home/page_not_found.html')
+
+
