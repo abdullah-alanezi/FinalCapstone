@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 
 class InvestorProfile(models.Model):
-    invested_campanies =models.TextChoices('invested_campany',['0','1','2','3','4','5','6','7','8','9','10'])
+    invested_campanies =models.TextChoices('invested_campany',['1','2','3','4','5','6','7','8','9','10'])
     user = models.OneToOneField(User,on_delete = models.CASCADE)
     inverstor_phone_number = models.CharField(max_length=10)
     specialization = models.CharField(max_length=255)
@@ -16,6 +16,8 @@ class InvestorProfile(models.Model):
     inverstor_LinkedIn = models.URLField()
     invested_campany =  models.CharField(max_length=56,choices=invested_campanies.choices,default='0')
 
+    def __str__(self) -> str:
+        return self.user.first_name
 
 
 class StartupManagerProfile(models.Model):
@@ -28,4 +30,7 @@ class StartupManagerProfile(models.Model):
     manager_bio = models.TextField()
     manager_city = models.CharField(max_length=255)
     manager_LinkedIn = models.URLField()
-
+    
+    
+    def __str__(self) -> str:
+        return self.user.first_name
