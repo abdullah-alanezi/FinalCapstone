@@ -21,3 +21,6 @@ https://lucid.app/lucidchart/c15ef13c-75cb-47f0-8f30-11da9ae78d47/edit?viewport_
 
 ## Task management (Trello) URL:
 https://trello.com/invite/b/zWGlZ1Fk/ATTIf53185bde73bf0edef90b746c1949ffc8403486D/websits
+
+## WireFrame (Figma) URL:
+https://www.figma.com/file/JOzITkT51kexlSeUCA1I8i/Hazal-Alenazi's-team-library?type=design&node-id=0%3A1&mode=design&t=g78oCwoyz8SsDVjp-1
