@@ -29,14 +29,13 @@
                 <ul class="dropdown-menu">
                   <li><a class="dropdown-item w-50" href="">Profile</a></li>
                   <li><hr class="dropdown-divider"></li>
-                  <!--<li><a class="dropdown-item" href="{% url 'services:view_services_i_reqeust_view'%}">History</a></li>-->
-                  <li><a class="dropdown-item text-danger" href="">Logout</a></li>
+                  <li><a class="dropdown-item text-danger" href="{% url 'user:logout_view' %}">Logout</a></li>
                 </ul>
               </lu>
               
               {% else %}
                 <a class="nav-link" href="{% url 'user:login_view' %}">Login</a>
-                <a class="nav-link" href="{% url 'user:logup_view' %}">SignUn</a>
+                <a class="nav-link" href="{% url 'user:logup_view' %}">SignUp</a>
               {% endif %}
             </div>
           </div>
