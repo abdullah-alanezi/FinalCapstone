@@ -1,0 +1,73 @@
+{% extends 'home/base.html' %}
+{% block title %} {% endblock %}
+
+
+{% block body %}
+<div class="container ms-0">
+
+
+            <form class="row" action="{% url 'startup:create_startup_view' %}" method="POST" enctype="multipart/form-data">
+                {% if massage %}
+                <div class="alert alert-danger" role="alert">
+                    {{massage}}
+                </div>
+                {% endif %}
+
+                {% csrf_token %}
+                <h1>Create Startup</h1>
+                <div class="col-md-4 m-0">
+                    <label class="from-label">Startup Name:</label>
+                    <input type="text" name="startup_name" class="form-control">
+                </div>
+                
+                <div class="col-md-4">
+                    <label class="from-label">Startup Founder:</label>
+                    <input type="text" name="startup_founder_name" class="form-control">
+                </div>
+                <div class="col-md-4">
+                    <label class="from-label">Startup Sector:</label>
+                    <select name="startup_sector" class="form-select">
+                        <option value="" selected>Select Sector</option>
+                        {% for key,value in sectors.choices %}
+                        <option value="{{key}}">{{value}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="from-label">Startup Number:</label>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">+966</span>
+                        <input type="number" class="form-control" placeholder="Number" name="startup_number">
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="from-label">Startup Target Market:</label>
+                    <input type="text" name="startup_target_market" class="form-control">
+                </div>
+
+                <div class="col-md-4">
+                    <label class="from-label">Startup Avatar:</label>
+                    <input type="file" name="startup_avatar" class="form-control">
+                </div>
+    
+                <div class="col-md-6">
+                    <label class="from-label">Startup Websit:</label>
+                    <input type="text" name="startup_websits" class="form-control">
+                </div>
+                <div class="col-md-6">
+                    <label class="from-label">Startup Email:</label>
+                    <input type="email" name="startup_email" class="form-control">
+                </div>
+                <div class="col-md-12">
+                    <label class="from-label">Startup Description:</label>
+                    <textarea name="startup_description" class="form-control"></textarea>
+                </div>
+
+                <div class="col-12 d-flex justify-content-center">
+                    <input type="submit" class="btn btn-primary mt-3 col-4">
+                </div>
+            </form>
+</div>
+{% endblock %}
