@@ -9,13 +9,16 @@
 {% block body %}
 
 <section>
-{% if msg %}
-{{msg}}
-{% endif %}
+
     <div class="container">
 
         <div class="row">
             <div class="col-6">
+                {% if massage %}
+                <div class="alert alert-danger" role="alert">
+                    {{massage}}
+                  </div>
+                {% endif %}                          
                 <form class="form-control" action="{% url 'user:logup_view' %}"  method="POST">
                   {% csrf_token %}
                     <div class="d-flex justify-content-between">

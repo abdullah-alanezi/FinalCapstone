@@ -29,4 +29,4 @@ def logup_view(requset:HttpRequest):
             #return redirect('login page:')
         except Exception as e:
             msg = e
-    return render(requset,'user/logup.html',{'msg':msg})
+    return render(requset,'user/logup.html',{'massage':msg})
