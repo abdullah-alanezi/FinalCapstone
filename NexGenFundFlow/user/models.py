@@ -16,6 +16,8 @@ class InvestorProfile(models.Model):
     inverstor_LinkedIn = models.URLField()
     invested_campany =  models.CharField(max_length=56,choices=invested_campanies.choices,default='0')
 
+    def __str__(self) -> str:
+        return self.user.first_name
 
 
 class StartupManagerProfile(models.Model):
@@ -28,4 +30,7 @@ class StartupManagerProfile(models.Model):
     manager_bio = models.TextField()
     manager_city = models.CharField(max_length=255)
     manager_LinkedIn = models.URLField()
-
+    
+    
+    def __str__(self) -> str:
+        return self.user.first_name
