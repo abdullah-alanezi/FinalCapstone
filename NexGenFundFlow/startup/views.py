@@ -24,6 +24,7 @@ def create_startup_view(request:HttpRequest):
                 startup_target_market=request.POST['startup_target_market']
                 )
             new_stratup.save()
+            return redirect('startup:view_all_my_stratup_view',user_id=request.user.id)
         except Exception as e:
             massgae = f'somwthing went wrong {e}'
     return render(request,'startup/create_startup.html',{'massage':massgae,'sectors':StartUp.sectors})
@@ -47,15 +48,18 @@ def edit_startup_view(request:HttpRequest,startup_id):
         
         startup.save()
 
-        return redirect('home:home_view')
+        return redirect('startup:view_all_my_stratup_view',user_id=request.user.id)
 
 
 
 
     return render(request,'startup/edit_startup.html',{'startup':startup,'sectors':StartUp.sectors})
 
-def view_all_my_stratup_view(request:HttpRequest):
-    pass
+def view_all_my_stratup_view(request:HttpRequest,user_id):
+
+    startup = StartUp.objects.filter(user=user_id)
+
+    return render(request,'startup/all_my_startup.html',{'startup':startup})
 
 def view_startup_profile_view(request:HttpRequest,startup_id):
     startup = StartUp.objects.get(id=startup_id)
