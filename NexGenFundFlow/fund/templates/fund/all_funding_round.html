@@ -1,0 +1,30 @@
+{% extends 'home/base.html' %}
+
+{% block title %}
+<title> Funding Round</title>
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="card m-3" >
+      <div class="row g-0 ">
+    {% for funding_round in funding_rounds %}
+
+        <div class="col-md-4 ">
+          <img src="{{funding_round.startup.startup_avatar.url}}" class="img-fluid rounded-start" alt="startup avatar">
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title">{{funding_round.startup.startup_name}}</h5>
+            <p class="card-text">{{funding_round.startup.startup_description}}</p>
+            <p class="card-text"><small class="text-body-secondary">{{funding_round.fund_status}}</small></p>
+            <a href="{% url 'fund:funding_round_details_view' funding_round.id %}" class="btn btn-primary">More details</a>
+          </div>
+        </div>
+
+
+    {% endfor %}
+  </div>
+</div>
+</div>
+{% endblock %}
