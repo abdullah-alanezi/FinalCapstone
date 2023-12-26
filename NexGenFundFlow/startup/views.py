@@ -54,7 +54,8 @@ def edit_startup_view(request:HttpRequest,startup_id):
 
     return render(request,'startup/edit_startup.html',{'startup':startup,'sectors':StartUp.sectors})
 
-
+def view_all_my_stratup_view(request:HttpRequest):
+    pass
 
 def view_startup_profile_view(request:HttpRequest,startup_id):
     startup = StartUp.objects.get(id=startup_id)
