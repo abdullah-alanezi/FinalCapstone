@@ -1,29 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deal Form</title>
-</head>
-<body>
-    <form action="{% url 'contract:create_deal_pdf' %}" method="post">
-        {% csrf_token %}
-        <label for="investor_name">Investor Name:</label>
-        <input type="text" id="investor_name" name="investor_name"><br><br>
+{% extends 'home/base.html' %}
+{% block title %} {% endblock %}
 
-        <label for="company_name">Company Name:</label>
-        <input type="text" id="company_name" name="company_name"><br><br>
-        <label for="investment_percentage">Investment Percentage:</label>
-        <input type="text" id="investment_percentage" name="investment_percentage"><br><br>
-        <label for="investment_amount">investment amount:</label>
-        <input type="text" id="investment_amount" name="investment_amount"><br><br>
 
-        <label for="agreement_date">Date of Agreement:</label>
-        <input type="date" id="agreement_date" name="agreement_date"><br><br>
-
-        <!-- أضف حقولًا إضافية حسب الحاجة -->
-
-        <input type="submit" value="Create PDF">
-    </form>
-</body>
-</html>
+{% block body %}
+    <div class="container">
+        <h1>Deal Form</h1>
+        <form action="{% url 'contract:create_deal_pdf' %}" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="investor_name">Investor Name:</label>
+                <input type="text" id="investor_name" name="investor_name" value="{{ investor_name }}" class="form-control" readonly>
+            </div>
+            <div class="form-group">
+                <label for="company_name">Company Name:</label>
+                <input type="text" id="company_name" name="company_name" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="investment_percentage">Investment Percentage:</label>
+                <input type="number" id="investment_percentage" name="investment_percentage" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="investment_amount">Investment Amount:</label>
+                <input type="number" id="investment_amount" name="investment_amount" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="agreement_date">Date of Agreement:</label>
+                <input type="date" id="agreement_date" name="agreement_date" class="form-control">
+            </div>
+            <button type="submit" class="btn btn-primary">Create PDF</button>
+        </form>
+    </div>
+{% endblock %}
