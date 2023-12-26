@@ -24,7 +24,7 @@ class StartupManagerProfile(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE)
     position = models.CharField(max_length=255)
     manager_phone_number = models.CharField(max_length=10)
-    manager_avatar = models.ImageField(upload_to='images/',default='iamges/default.jpg')
+    manager_avatar = models.ImageField(upload_to='images/',default='images/default.jpg')
     manager_birth_day = models.DateField()
     manager_x_link = models.URLField()
     manager_bio = models.TextField()
