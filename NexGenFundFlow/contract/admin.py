@@ -21,3 +21,5 @@ from django.contrib import admin
 # class ContractPdf(models.Model):
 #     contract = models.OneToOneField(Contract, on_delete=models.CASCADE)
 #     contract_role = models.TextField()
+
+
