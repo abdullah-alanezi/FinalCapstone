@@ -1,0 +1,45 @@
+{% extends 'home/base.html' %}
+{% block title  %}
+<title>Funding Round</title>
+{% endblock %}
+
+
+{% block body %}
+<div class="container">
+    <form class="row" action="{% url 'startup:funding_round_view' startup_id %}" method="POST">
+        {% csrf_token %}
+        {% if massage %}
+            <div class="alert alert-danger" role="alert">
+                {{massage}}
+            </div>
+        {% endif %}
+        
+        <h1>Create Funding Round:</h1>
+        <div class="col-md-4 m-0">
+            <label class="from-label">Fund Percentage:</label>
+            <input type="number" name="fund_percentage" class="form-control" max="100" min="1">
+        </div>
+
+        <div class="col-md-4 m-0">
+            <label class="from-label">Fund Amount:</label>
+            <div class="input-group mb-3">
+                <span class="input-group-text">SAR</span>
+                <input type="number" name="fund_amount" class="form-control">
+            </div>
+        </div>
+
+        <div class="col-md-4 m-0">
+            <label class="from-label">Fund Stage:</label>
+            <select name="fund_stage" class="form-select">
+                <option selected>Select Stage</option>
+                {% for key,value in stage.choices %}
+                    <option value="{{key}}">{{value}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-12 justify-content-center d-flex">
+            <input type="submit" class="btn btn-primary mt-3 col-4">
+        </div>
+    </form>
+</div>
+{% endblock %}

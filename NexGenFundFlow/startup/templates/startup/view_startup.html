@@ -25,7 +25,9 @@
                     <li><a class="dropdown-item" href="{% url 'startup:edit_startup_view' startup.id %}">Edit</a></li>
                     <li><a class="dropdown-item" href="{% url 'startup:add_team_member_view' startup.id %}">Add Team Member</a></li>
                     <li><a class="dropdown-item" href="{% url 'startup:team_view' startup.id %}">View Team Member</a></li>
-                    <li><a class="dropdown-item" href="">Fund Round</a></li>
+                    <li><a class="dropdown-item" href="{% url 'startup:funding_round_view' startup.id %}">Create Funding Round</a></li>
+                    <li><a class="dropdown-item" href="{% url 'startup:all_funding_round_view' startup.id %}">View Funding Round</a></li>
+
                   </ul>
                 </div>
             </div>
@@ -62,7 +64,7 @@
             </div>
 
             <div class="col-md-4">
-                <label class="from-label">Startup Avatar:</label>
+                <label class="from-label">Startup Avatar: Current:<a href="{{startup.startup_avatar.url}}">{{startup.startup_avatar.url}}</a></label>
                 <input type="file" name="startup_avatar" class="form-control">
             </div>
 

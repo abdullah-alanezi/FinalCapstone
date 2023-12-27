@@ -11,72 +11,201 @@
 <section>   
 <div class="container">
     <div class="row">
+        {% if request.user in startups_managers %}
         <div class="col-6">
+            
             <form  action="{% url 'user:update_profile_view'%}"  method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
                 
-                <!-- User Information -->
-                <button type="submit" class="btn btn-primary">Update</button>
-                <div class="form-group">
-                    <label for="first_name">First Name:</label>
-                    <input type="text" id="first_name" name="first_name" class="form-control" required>
-                </div>
-        
-                <div class="form-group">
-                    <label for="last_name">Last Name</label>
-                    <input type="text" id="last_name" name="last_name" class="form-control" required>
-                </div>
-        
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" class="form-control" required>
-                </div>
-        
                 <!-- Manager Profile Information -->
-                <div class="form-group">
-                    <label for="position">Position:</label>
-                    <input type="text" id="position" name="position" class="form-control" required>
+                
+
+                <div class="row">
+
+                    <div class="col-6">
+                        <label for="first_name">First Name:</label>
+                        <input type="text" id="first_name" name="first_name" value="{{user.first_name}}" class="form-control" required>
+                    </div>
+
+                    <div class="col-6">
+                        <label for="last_name">Last Name</label>
+                        <input type="text" id="last_name" name="last_name" value="{{user.last_name}}" class="form-control" required>
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-6">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" value="{{user.email}}" class="form-control" required>
+                    </div>  
+                    
+                    <div class="col-6">
+                        <label for="manager_phone_number">Phone Number:</label>
+                        <input type="text" id="manager_phone_number" name="manager_phone_number" value="{{user.startupmanagerprofile.manager_phone_number}}" maxlength="10" class="form-control" required>
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-6">
+                        <label for="position">Position:</label>
+                        <input type="text" id="position" name="position" value="{{user.startupmanagerprofile.position}}" class="form-control" required>
+                    </div>
+
+                    <div class="col-6">
+                        <label for="manager_avatar">Avatar:</label>
+                        <input type="file" id="manager_avatar" name="manager_avatar" class="form-control-file">
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-6">
+                        <label for="manager_birth_day">Birth Day:</label>
+                        <input type="date" id="manager_birth_day" value="{{user.startupmanagerprofile.manager_birth_day}}" name="manager_birth_day" class="form-control" required>
+                    </div>
+
+                    <div class="col-6">
+                        <label for="manager_city">City:</label>
+                        <input type="text" id="manager_city" value="{{user.startupmanagerprofile.manager_city}}" name="manager_city" class="form-control" required>
+                    </div>
+
+                </div>
+
+                <div class="row" >
+
+                    <div class="col-6">
+                        <label for="manager_x_link">X Link:</label>
+                        <input type="url" id="manager_x_link" value="{{user.startupmanagerprofile.manager_x_link}}" name="manager_x_link" class="form-control" required>
+                    </div>
+
+                    <div class="col-6">
+                        <label for="manager_LinkedIn">LinkedIn Profile:</label>
+                        <input type="url" id="manager_LinkedIn" value="{{user.startupmanagerprofile.manager_LinkedIn}}" name="manager_LinkedIn" class="form-control" required>
+                    </div>
+
+                </div>
+                
+                <div class="row">
+                    <div class="form-group">
+                        <label for="manager_bio">Bio:</label>
+                        <textarea id="manager_bio" name="manager_bio" class="form-control" rows="4" required>{{user.startupmanagerprofile.manager_bio   }}</textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </div>         
+                
+            </form>
+        </div>
+        {% endif %}
+
+        {% if request.user in investors %}
+
+        {% for key, value in invested_campanies %}
+
+        {{key}}
+        {% endfor %}
+
+
+        <div class="col-6">
+            
+            <form  action="{% url 'user:update_profile_view'%}"  method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <!-- Investor Information  -->
+                
+                <div class="row">
+                    <div class="col-6">
+                        <label for="first_name">First Name:</label>
+                        <input type="text" id="first_name" value="{{user.first_name}}" name="first_name" class="form-control" required>
+                    </div>
+            
+                    <div class="col-6">
+                        <label for="last_name">Last Name</label>
+                        <input type="text" id="last_name" value="{{user.last_name}}" name="last_name" class="form-control" required>
+                    </div>
+            
                 </div>
         
-                <div class="form-group">
-                    <label for="manager_phone_number">Phone Number:</label>
-                    <input type="text" id="manager_phone_number" name="manager_phone_number" maxlength="10" class="form-control" required>
+                <!-- Investor Profile Information -->
+
+                <div class="row">
+                    <div class="col-6">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" value="{{user.email}}" name="email" class="form-control" required>
+                    </div>
+            
+                    <div class="col-6">
+                        <label for="manager_phone_number">Phone Number:</label>
+                        <input type="text" id="inverstor_phone_number" value="{{user.investorprofile.inverstor_phone_number}}" placeholder="055xxxxxxx" name="inverstor_phone_number" maxlength="10" class="form-control" required>
+                    </div>
+            
+                    <div class="col-6">
+                        <label for="manager_avatar">Avatar:</label>
+                        <input type="file" id="inverstor_avatar" name="inverstor_avatar" class="form-control-file">
+                    </div>
+
+                </div>
+
+                <div class="row" >
+                    <div class="col-6">
+                        <label for="inverstor_x_link">X Link:</label>
+                        <input type="url" id="inverstor_x_link" value="{{user.investorprofile.inverstor_x_link}}" name="inverstor_x_link" class="form-control" required>
+                    </div>
+
+                    <div class="col-6">
+                        <label for="inverstor_LinkedIn">LinkedIn Profile:</label>
+                        <input type="url" id="inverstor_LinkedIn"  value="{{user.investorprofile.inverstor_LinkedIn}}" name="inverstor_LinkedIn" class="form-control" required>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-6">
+                        <label for="manager_birth_day">Birth Day:</label>
+                        <input type="date" id="inverstor_birth_day" name="inverstor_birth_day" class="form-control" required>
+                    </div>
+
+                    <div class="col-6">
+                        <label for="inverstor_city">City:</label>
+                        <input type="text" id="inverstor_city" value="{{user.investorprofile.inverstor_city}}" name="inverstor_city" class="form-control" required>
+                    </div>
+
                 </div>
         
-                <div class="form-group">
-                    <label for="manager_avatar">Avatar:</label>
-                    <input type="file" id="manager_avatar" name="manager_avatar" class="form-control-file">
+                <div class="row">
+
+                    <div class="col-6">
+                        <label for="manager_bio">Bio:</label>
+                        <textarea id="manager_bio" name="inverstor_bio" class="form-control" rows="4" required>{{user.investorprofile.inverstor_bio}}</textarea>
+                    </div>
+
+                    <div class="col-6">
+                        <label for="specialization">Specialization:</label>
+                        <input type="text" id="specialization" value="{{user.investorprofile.specialization}}" name="specialization" class="form-control" required>
+                    </div>
+                    
+                    <div class="col-6">
+                        <div class="row" >
+
+                            <button  type="submit" class="btn btn-primary mt-3">Update</button>
+                        </div>
+                        
+                    </div>
+
                 </div>
         
-                <div class="form-group">
-                    <label for="manager_birth_day">Birth Day:</label>
-                    <input type="date" id="manager_birth_day" name="manager_birth_day" class="form-control" required>
-                </div>
         
-                <div class="form-group">
-                    <label for="manager_x_link">X Link:</label>
-                    <input type="url" id="manager_x_link" name="manager_x_link" class="form-control">
-                </div>
-        
-                <div class="form-group">
-                    <label for="manager_bio">Bio:</label>
-                    <textarea id="manager_bio" name="manager_bio" class="form-control" rows="4" required></textarea>
-                </div>
-        
-                <div class="form-group">
-                    <label for="manager_city">City:</label>
-                    <input type="text" id="manager_city" name="manager_city" class="form-control" required>
-                </div>
-        
-                <div class="form-group">
-                    <label for="manager_LinkedIn">LinkedIn Profile:</label>
-                    <input type="url" id="manager_LinkedIn" name="manager_LinkedIn" class="form-control">
-                </div>
+
         
                 <!-- Submit Button -->
                 
             </form>
         </div>
+        {% endif%}
+
+
     </div>
 </div>
 </section>
