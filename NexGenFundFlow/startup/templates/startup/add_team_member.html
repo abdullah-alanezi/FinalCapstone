@@ -1,0 +1,43 @@
+{% extends 'home/base.html' %}
+
+{% block title %}
+<title>add team member</title>
+{% endblock %}
+
+{% block body %}
+{% if massage %}
+<div class="alert alert-danger mt-3" role="alert" >
+    {{massage}}
+</div>
+{% endif %}
+
+<div class="container">
+
+    <form class="row" action="{% url 'startup:add_team_member_view' startup_id %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h1>Add Member</h1>
+        <div class="col-md-4">
+            <label class="from-label">Member name:</label>
+            <input type="text" name="team_name" class="form-control" >
+        </div>
+        <div class="col-md-4">
+            <label class="from-label">Member Role:</label>
+            <input type="text" name="team_role" class="form-control">
+        </div>
+        <div class="col-md-4">
+            <label class="from-label">Member Avatar:</label>
+            <input type="file" name="team_avatar" class="form-control" >
+        </div>
+        <div class="col-md-12">
+            <label class="from-label">Member Linkdin:</label>
+            <input type="text" name="team_linkdin" class="form-control">
+        </div>
+        <div class="d-flex justify-content-center">
+            <input type="submit" class="btn btn-primary mt-3 col-4" title="Add Member">
+        </div>
+    </form>
+
+</div>
+
+
+{% endblock %}
