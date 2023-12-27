@@ -1,0 +1,84 @@
+{% extends 'home/base.html' %}
+{% load static %}
+
+{% block title %}{% endblock %}
+
+
+
+
+{% block body %}
+
+<section>   
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <form  action="{% url 'user:update_profile_view'%}"  method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <!-- User Information -->
+                <button type="submit" class="btn btn-primary">Update</button>
+                <div class="form-group">
+                    <label for="first_name">First Name:</label>
+                    <input type="text" id="first_name" name="first_name" class="form-control" required>
+                </div>
+        
+                <div class="form-group">
+                    <label for="last_name">Last Name</label>
+                    <input type="text" id="last_name" name="last_name" class="form-control" required>
+                </div>
+        
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" class="form-control" required>
+                </div>
+        
+                <!-- Manager Profile Information -->
+                <div class="form-group">
+                    <label for="position">Position:</label>
+                    <input type="text" id="position" name="position" class="form-control" required>
+                </div>
+        
+                <div class="form-group">
+                    <label for="manager_phone_number">Phone Number:</label>
+                    <input type="text" id="manager_phone_number" name="manager_phone_number" maxlength="10" class="form-control" required>
+                </div>
+        
+                <div class="form-group">
+                    <label for="manager_avatar">Avatar:</label>
+                    <input type="file" id="manager_avatar" name="manager_avatar" class="form-control-file">
+                </div>
+        
+                <div class="form-group">
+                    <label for="manager_birth_day">Birth Day:</label>
+                    <input type="date" id="manager_birth_day" name="manager_birth_day" class="form-control" required>
+                </div>
+        
+                <div class="form-group">
+                    <label for="manager_x_link">X Link:</label>
+                    <input type="url" id="manager_x_link" name="manager_x_link" class="form-control">
+                </div>
+        
+                <div class="form-group">
+                    <label for="manager_bio">Bio:</label>
+                    <textarea id="manager_bio" name="manager_bio" class="form-control" rows="4" required></textarea>
+                </div>
+        
+                <div class="form-group">
+                    <label for="manager_city">City:</label>
+                    <input type="text" id="manager_city" name="manager_city" class="form-control" required>
+                </div>
+        
+                <div class="form-group">
+                    <label for="manager_LinkedIn">LinkedIn Profile:</label>
+                    <input type="url" id="manager_LinkedIn" name="manager_LinkedIn" class="form-control">
+                </div>
+        
+                <!-- Submit Button -->
+                
+            </form>
+        </div>
+    </div>
+</div>
+</section>
+
+{% endblock %}

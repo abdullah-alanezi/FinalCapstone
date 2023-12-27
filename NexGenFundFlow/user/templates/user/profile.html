@@ -1,0 +1,28 @@
+{% extends 'home/base.html' %}
+
+{% load static %}
+
+{% block title %} <title>profile</title>{% endblock %}
+
+
+
+{% block body %}
+
+<section>
+
+<div class="container">
+    <a class="btn btn-primary" href="{% url 'user:update_profile_view' %}"></a>
+    {% if request.user.is_authenticated %}
+    <div class="row">
+        {{request.user.first_name}}
+        <img src="{{ request.user.startupmanagerprofile.manager_avatar.url  }}" alt="">
+        
+        <div class="col-6"></div>
+
+        <div class="col-6" ></div>
+    </div>
+    {% endif %}
+</div>
+</section>
+
+{% endblock %}
