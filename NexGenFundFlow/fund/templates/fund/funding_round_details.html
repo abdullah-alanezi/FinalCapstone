@@ -1,0 +1,115 @@
+{% extends 'home/base.html' %}
+
+{% block title %}
+<title> Funding Round details</title>
+{% endblock %}
+
+{% block body %}
+<div class="container m-5">
+    <div class="row align-items-end">
+        <div class="col ">
+            <i class="bi bi-percent"></i>
+            <h3>{{funding_round.fund_percentage}}</h3>
+            <h4>Ownership percentage</h4>
+        </div>
+        <div class="col ">
+            <i class="bi bi-cash"></i>
+            <h3>{{funding_round.fund_amount}}</h3>
+            <h4>Investment value</h4>
+
+        </div>
+
+        <div class="col ">
+            <i class="bi bi-archive"></i>
+            <h3>{{funding_round.fund_stage}}</h3>
+            <h4>Fund stage</h4>
+            
+
+        </div>
+        <div class="row align-items-end">
+            <p class="card-text"><small class="text-body-secondary">{{funding_round.fund_current_close}}</small></p>
+            <div class="progress" role="progressbar" aria-label="Example with label" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
+                <div class="progress-bar" style="width: 50%">25%</div>
+              </div>
+              
+
+
+        </div>
+    </div>
+
+        <hr class="mt-3">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>{{funding_round.startup.startup_name}} details :</h2>
+            <img height="128" width="128" src="{{funding_round.startup.startup_avatar.url}}" class="rounded float-end" alt="icon-company">
+        </div>
+        <div class="row row-cols-6 align-items-start">
+
+            
+
+            <div class="col">
+                <h5>startup sector : {{funding_round.startup.startup_sector}}</h5>
+            </div>
+            <div class="col">
+                <h5>startup_websits : {{funding_round.startup.startup_websits}}</h5>
+            </div>
+            <div class="col">
+                <h5>startup description : {{funding_round.startup.startup_description}}</h5>
+            </div>
+            <div class="col">
+                <h5>startup founder name : {{funding_round.startup.startup_founder_name}}</h5>
+            </div>
+            <div class="col">
+                <h5>startup target market : {{funding_round.startup.startup_target_market}}</h5>
+            </div>
+
+        </div>
+
+
+
+
+
+
+    </div>
+    <div class="row d-flex justify-content-between mt-5">
+        <div class="col-3">
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Investment request
+        </button>
+
+        </div>
+
+
+    </div>
+    <hr class="mb-4">
+
+    
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">an offer</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+        <form action="{% url 'fund:funding_round_details_view' funding_round.id %}" method="POST" class="d-flex flex-column gap-2">
+            {% csrf_token %}
+            <label for="floatingInputDisabled">amount</label>
+            <input type="number" class="form-control" id="floatingInputDisabled" name="amount" placeholder="amount" >
+            <label for="floatingInputDisabled">percentage</label>
+            <input type="number" class="form-control" id="floatingInputDisabled" name="percentage" placeholder="percentage" >
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Request</button>
+              </div>
+        </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
