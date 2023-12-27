@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpRequest,HttpResponse
-from .models import StartUp,TeamMember
+from .models import StartUp,TeamMember,FundingRound
 
 
 # Create your views here.
@@ -94,3 +94,26 @@ def add_team_member_view(request:HttpRequest,startup_id):
         return redirect('startup:view_startup_profile_view',startup_id=startup_id)
     
     return render(request,'startup/add_team_member.html',{'massage':massage,'startup_id':startup_id})
+
+
+
+def funding_round_view(request:HttpRequest,startup_id):
+    sit = StartUp.objects.get(id=startup_id)
+
+    if request.method == 'POST':
+        fund = FundingRound(
+            startup=sit,
+            fund_percentage= request.POST['fund_percentage'],
+            fund_amount= request.POST['fund_amount'],
+            fund_stage= request.POST['fund_stage'],
+        )
+        fund.save()
+        return redirect('startup:all_funding_round_view',startup_id=startup_id)
+    return render(request,'startup/funding_round.html',{'stage':FundingRound.stages,'startup_id':startup_id})
+
+def all_funding_round_view(request:HttpRequest,startup_id):
+    new = StartUp.objects.get(id=startup_id)
+
+    search = FundingRound.objects.filter(startup=new)
+
+    return render(request,'startup/view_funding_round.html',{'fund':search})
