@@ -1,0 +1,22 @@
+{% extends 'home/base.html' %}
+{% block title %} {% endblock %}
+
+{% block body %}
+{% if massage %}
+<div class="alert alert-danger mt-3" role="alert" >
+    {{massage}}
+</div>
+{% endif %}
+
+<div class="container">
+    <div class="row">
+        {% for m in member %}
+        <h1>h</h1>
+        {% endfor %}
+    </div>
+</div>
+
+
+
+
+{% endblock %}

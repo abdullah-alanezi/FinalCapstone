@@ -1,0 +1,24 @@
+{% extends 'home/base.html' %}
+
+{% block title %} <title>My Startups</title> {% endblock %}
+
+
+{% block body %}
+
+<div class="container">
+    <div class="row">
+        {% if massage %}
+        <div class="alert alert-danger" role="alert">
+            {{massage}}
+        </div>
+        {% endif %}
+        {% for n in startup %}
+        <div class="col-12 d-flex justify-content-between">
+            <img src="{{n.startup_avatar.url}}" class="img">
+            <h1> {{n.startup_name}}</h1>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
