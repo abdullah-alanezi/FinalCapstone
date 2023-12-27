@@ -9,20 +9,96 @@
 {% block body %}
 
 <section>
+{% if user in investors %}
+<div class="container mt-5">
+    
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            {% if request.user.id == user.id %}
+            {% if massage %}
+            <div class="alert alert-danger" role="alert">
+                {{massage}}
+            </div>
+            {% endif %}
+            {% endif %}
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="text-center">{{user.first_name}} {{user.last_name}}</h2>
+                </div>
+                <div class="card-body">
+                    <!-- Profile Image -->
+                    <img src="{{ user.investorprofile.inverstor_avatar.url }}" class="img-fluid rounded-circle mx-auto d-block" alt="Profile Image" style="max-width: 150px;">
 
-<div class="container">
-    <a class="btn btn-primary" href="{% url 'user:update_profile_view' %}"></a>
-    {% if request.user.is_authenticated %}
-    <div class="row">
-        {{request.user.first_name}}
-        <img src="{{ request.user.startupmanagerprofile.manager_avatar.url  }}" alt="">
-        
-        <div class="col-6"></div>
+                    <!-- Profile Details -->
+                    <div class="mt-4">
+                        <p><strong>Specialization:</strong> {{ user.investorprofile.specialization }}</p>
+                        <p><strong>Birth Day:</strong> {{ user.investorprofile.inverstor_birth_day }}</p>
+                        <p><strong>City:</strong> {{ user.investorprofile.inverstor_city }}</p>
+                        <p><strong>Phone Number:</strong> {{ user.investorprofile.inverstor_phone_number }}</p>
+                        <p><strong>LinkedIn:</strong> <a href="{{ user.investorprofile.inverstor_LinkedIn }}" target="_blank">{{ user.investorprofile.inverstor_LinkedIn }}</a></p>
+                        <p><strong>X-Link:</strong> <a href="{{ user.investorprofile.inverstor_x_link }}" target="_blank">{{ user.investorprofile.inverstor_x_link }}</a></p>
+                    </div>
 
-        <div class="col-6" ></div>
+                    <!-- Biography -->
+                    <div class="mt-4">
+                        <h5>Bio</h5>
+                        <p>{{ user.investorprofile.inverstor_bio }}</p>
+                    </div>
+                </div>
+            </div>
+            {% if request.user.id == user.id %}
+            <a class="btn btn-primary" href="{% url 'user:update_profile_view' %}">Update Profile</a>
+            {% endif %}
+        </div>
     </div>
-    {% endif %}
 </div>
+{% endif %}
+
+
+{% if user in startups_managers %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+
+            {% if request.user.id == user.id %}
+            {% if massage %}
+            <div class="alert alert-danger" role="alert">
+                {{massage}}
+            </div>
+            {% endif %}
+            {% endif %}
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="text-center">{{user.first_name}} {{user.last_name}}</h2>
+                </div>
+                <div class="card-body">
+                    <!-- Profile Image -->
+                    <img src="{{ user.startupmanagerprofile.manager_avatar.url }}" class="img-fluid rounded-circle mx-auto d-block" alt="Profile Image" style="max-width: 150px;">
+
+                    <!-- Profile Details -->
+                    <div class="mt-4">
+                        <p><strong>Position</strong>{{ user.startupmanagerprofile.position }}</p>
+                        <p><strong>Birth Day:</strong> {{ user.startupmanagerprofile.manager_birth_day }}</p>
+                        <p><strong>City:</strong> {{ user.startupmanagerprofile.manager_city }}</p>
+                        <p><strong>Phone Number:</strong> {{ user.startupmanagerprofile.manager_phone_number }}</p>
+                        <p><strong>LinkedIn:</strong> <a href="{{ user.startupmanagerprofile.manager_LinkedIn }}" target="_blank">{{ user.startupmanagerprofile.manager_LinkedIn }}</a></p>
+                        <p><strong>X-Link:</strong> <a href="{{ user.startupmanagerprofile.manager_x_link }}" target="_blank">{{ user.startupmanagerprofile.manager_x_link }}</a></p>
+                    </div>
+
+                    <!-- Biography -->
+                    <div class="mt-4">
+                        <h5>Bio</h5>
+                        <p>{{ user.startupmanagerprofile.manager_bio }}</p>
+                    </div>
+                </div>
+            </div>
+            {% if request.user.id == user.id %}
+            <a class="btn btn-primary" href="{% url 'user:update_profile_view' %}">Update Profile</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endif %}
 </section>
 
 {% endblock %}
