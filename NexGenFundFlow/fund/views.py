@@ -23,9 +23,8 @@ def funding_round_details_view(request:HttpRequest,funding_round_id):
 
 def investment_requests_view(request:HttpRequest):
     investment_requests = InvestmentOffer.objects.filter(user=request.user)
-    count = 0
     
-    return render(request,"fund/investment_requests.html",{"investment_requests":investment_requests, "count":count})
+    return render(request,"fund/investment_requests.html",{"investment_requests":investment_requests})
 
 def cancel_investment_offer_view(request:HttpRequest,investment_offer_id):
     investment_offer = InvestmentOffer.objects.get(id=investment_offer_id)
