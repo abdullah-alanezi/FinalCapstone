@@ -6,15 +6,15 @@ from . models import StartupManagerProfile, InvestorProfile
 # Create your views here.
 
 
-def logup_view(requset:HttpRequest):
+def logup_view(request:HttpRequest):
     msg=None
-    if requset.method == 'POST':
+    if request.method == 'POST':
         try:
             
-            user = User.objects.create_user(username=requset.POST['username'],first_name = requset.POST['first_name'],last_name=requset.POST['last_name'],email = requset.POST['email'],password = requset.POST['password'])
+            user = User.objects.create_user(username=request.POST['username'],first_name = request.POST['first_name'],last_name=request.POST['last_name'],email = request.POST['email'],password = request.POST['password'])
             user.save()
 
-            user_field = requset.POST.get('selected_option')
+            user_field = request.POST.get('selected_option')
 
             if user_field == 'investor':
                 
@@ -27,12 +27,13 @@ def logup_view(requset:HttpRequest):
                     group = Group.objects.get(name="StartupsManagers")
                     user.groups.add(group)
             
-
+            login(request,user)
+            return redirect('user:profile_view',request.user.id)
             #return profile page
             #return redirect('user:')
         except Exception as e:
             msg = e
-    return render(requset,'user/logup.html',{'massage':msg})
+    return render(request,'user/logup.html',{'massage':msg})
 
 
 
@@ -44,7 +45,9 @@ def login_view(request:HttpRequest):
 
         if user:
             login(request,user)
+            
             return redirect('home:home_view')
+        
         else:
             msg ='please provide correct username and password'
 
@@ -63,17 +66,43 @@ def logout_view(request:HttpRequest):
     
 
 
-def profile_view(request:HttpRequest):
+def profile_view(request:HttpRequest,user_id):
         
-        #user = User.objects.filter(groups__name ='Investors')
+        msg = None
+        user = User.objects.get(id=user_id)
 
-        return render(request,'user/profile.html')
+        startups_managers = User.objects.filter(groups__name ='StartupsManagers')
+        
+        investors = User.objects.filter(groups__name ='Investors')       
+
+        if request.user in investors:
+            try:
+                s=request.user.investorprofile
+            except Exception:
+                msg = 'Please complete your profile'
+
+        elif request.user in startups_managers:
+
+            try:
+                s=request.user.startupmanagerprofile
+            except Exception:
+                msg = 'Please complete your profile'
+
+
+
+        return render(request,'user/profile.html',{'user':user,'investors':investors,'startups_managers':startups_managers,'massage':msg})
 
 
 def update_profile_view(request:HttpRequest):
-    
+
+    investors = User.objects.filter(groups__name = 'Investors')
+
+    invested_campanies = InvestorProfile.invested_campanies.choices
+
     user = User.objects.get(id=request.user.id)
+
     startups_managers = User.objects.filter(groups__name ='StartupsManagers')
+
     if request.user.is_authenticated:
         if user in startups_managers:
             if request.method == 'POST':
@@ -88,24 +117,68 @@ def update_profile_view(request:HttpRequest):
                     manager_profile=request.user.startupmanagerprofile
                 except Exception as e:
                         
-                    manager_profile = StartupManagerProfile(user=user,
+                    manager_profile = StartupManagerProfile(user=user)
 
-                    position = request.POST['position'],
-                    manager_phone_number = request.POST['manager_phone_number'],
-                    manager_birth_day = request.POST['manager_birth_day'],
-                    manager_x_link = request.POST['manager_x_link'],
-                    manager_bio = request.POST['manager_bio'],
-                    manager_city = request.POST['manager_city'],
-                    manager_LinkedIn = request.POST['manager_LinkedIn']
+                manager_profile.position = request.POST['position']
+                manager_profile.manager_phone_number = request.POST['manager_phone_number']
+                manager_profile.manager_birth_day = request.POST['manager_birth_day']
+                manager_profile.manager_x_link = request.POST['manager_x_link']
+                manager_profile.manager_bio = request.POST['manager_bio']
+                manager_profile.manager_city = request.POST['manager_city']
+                manager_profile.manager_LinkedIn = request.POST['manager_LinkedIn']
                                                             
-                                                            )
-                    if 'manager_avatar' in request.method:
+                                                            
+                if 'manager_avatar' in request.FILES:
 
                         manager_profile.manager_avatar = request.FILES['manager_avatar']
 
-                    manager_profile.save()
-        else:
-            return redirect('home:home_view')
+                manager_profile.save()
+        
+        elif request.user in investors:
+            
+            if request.method == 'POST':
+
+                user.first_name = request.POST['first_name']
+                user.last_name =  request.POST['last_name']
+                user.email = request.POST['email']
+
+                user.save()
+
+                try:
+                    investor_profile=request.user.investorprofile
+                except Exception as e:
+                        
+                    investor_profile = InvestorProfile(user=user)
+
+                investor_profile.specialization = request.POST['specialization']
+                investor_profile.inverstor_phone_number = request.POST['inverstor_phone_number']
+                investor_profile.inverstor_birth_day = request.POST['inverstor_birth_day']
+                investor_profile.inverstor_x_link = request.POST['inverstor_x_link']
+                investor_profile.inverstor_bio = request.POST['inverstor_bio']
+                investor_profile.inverstor_city = request.POST['inverstor_city']
+                investor_profile.inverstor_LinkedIn = request.POST['inverstor_LinkedIn']
+                                                            
+                                                            
+                if 'inverstor_avatar' in request.FILES:
+
+                        investor_profile.inverstor_avatar = request.FILES['inverstor_avatar']
+
+                investor_profile.save()
+    
+    context = {
+        'invested_campanies':invested_campanies,
+        'investors':investors,
+        'startups_managers':startups_managers,
+        'user':user
+
+    }
                 
                         
-    return render(request,'user/update_profile.html')
+    return render(request,'user/update_profile.html',context)
+
+
+def investors_view(request:HttpRequest):
+
+    investors = User.objects.filter(groups__name ='Investors') 
+
+    return render(request,'user/investors.html',{'investors':investors})
