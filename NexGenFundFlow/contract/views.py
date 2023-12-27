@@ -13,16 +13,12 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image
 from django.contrib.auth.decorators import login_required
 from user.models import InvestorProfile
 
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
-from user.models import InvestorProfile
-
 @login_required
 def your_form_view(request):
-    investor_name = None  # تعيين القيمة الافتراضية إلى None
+    investor_name = None  
     if InvestorProfile.objects.filter(user=request.user).exists():
         investor_profile = InvestorProfile.objects.get(user=request.user)
-        investor_name = investor_profile.user.get_full_name()  # تعيين اسم المستثمر
+        investor_name = investor_profile.user.get_full_name() 
 
     context = {'investor_name': investor_name}
     return render(request, 'contract/deal_form.html', context)
@@ -34,17 +30,15 @@ def your_form_view(request):
 @login_required
 def create_deal_pdf(request):
     if request.method == 'POST':
-        # استخدم القيم المدخلة من النموذج
         investor_name = request.POST.get('investor_name', '').strip() or 'Unknown Investor'
         company_name = request.POST.get('company_name', '__________')
         investment_percentage = request.POST.get('investment_percentage', '___')
         investment_amount = request.POST.get('investment_amount', '__________')
         agreement_date = request.POST.get('agreement_date') or datetime.now().strftime('%Y-%m-%d')
 
-        # ... الكود الباقي لإنشاء ملف PDF ...
 
         investor_name = request.POST.get('investor_name', None)
-        if not investor_name:  # إذا لم يتم توفير اسم، حاول الحصول عليه من الملف الشخصي للمستثمر
+        if not investor_name:  
             try:
                 investor_profile = InvestorProfile.objects.get(user=request.user)
                 investor_name = investor_profile.user.get_full_name()
