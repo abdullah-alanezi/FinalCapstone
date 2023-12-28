@@ -9,5 +9,7 @@ urlpatterns = [
     path("funding/round/details/<funding_round_id>/",views.funding_round_details_view,name="funding_round_details_view"),
     path("investment/requests/",views.investment_requests_view,name="investment_requests_view"),
     path("cancel/investment/offer/<investment_offer_id>/",views.cancel_investment_offer_view,name="cancel_investment_offer_view"),
+    path("negotiate/<investment_offer_id>/",views.negotiate_view,name="negotiate_view"),
+    path("add/comment/<investment_offer_id>",views.add_comment_view,name="add_comment_view")
     
 ]
