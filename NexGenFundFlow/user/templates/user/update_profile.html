@@ -43,7 +43,12 @@
                     
                     <div class="col-6">
                         <label for="manager_phone_number">Phone Number:</label>
-                        <input type="text" id="manager_phone_number" name="manager_phone_number" value="{{user.startupmanagerprofile.manager_phone_number}}" maxlength="10" class="form-control" required>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">+966</span>
+                            <input  type="text" id="manager_phone_number" name="manager_phone_number" value="{{user.startupmanagerprofile.manager_phone_number}}" maxlength="10" class="form-control" required>
+                            
+                        </div>
+                        
                     </div>
 
                 </div>
@@ -56,7 +61,7 @@
                     </div>
 
                     <div class="col-6">
-                        <label for="manager_avatar">Avatar:</label>
+                        <label for="manager_avatar">Avatar: <a href="{{user.startupmanagerprofile.manager_avatar.url}}">current avatar</a> </label> 
                         <input type="file" id="manager_avatar" name="manager_avatar" class="form-control-file">
                     </div>
 
@@ -139,11 +144,16 @@
             
                     <div class="col-6">
                         <label for="manager_phone_number">Phone Number:</label>
-                        <input type="text" id="inverstor_phone_number" value="{{user.investorprofile.inverstor_phone_number}}" placeholder="055xxxxxxx" name="inverstor_phone_number" maxlength="10" class="form-control" required>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">+966</span>
+                            <input type="text"  id="inverstor_phone_number" value="{{user.investorprofile.inverstor_phone_number}}" placeholder="055xxxxxxx" name="inverstor_phone_number" maxlength="10" class="form-control" required>
+                            
+                        </div>
+                       
                     </div>
             
                     <div class="col-6">
-                        <label for="manager_avatar">Avatar:</label>
+                        <label for="manager_avatar">Avatar: <a href="{{user.investorprofile.inverstor_avatar.url}}">current avatar</a></label>
                         <input type="file" id="inverstor_avatar" name="inverstor_avatar" class="form-control-file">
                     </div>
 

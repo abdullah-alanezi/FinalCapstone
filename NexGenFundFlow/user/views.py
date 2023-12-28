@@ -29,8 +29,7 @@ def logup_view(request:HttpRequest):
             
             login(request,user)
             return redirect('user:profile_view',request.user.id)
-            #return profile page
-            #return redirect('user:')
+       
         except Exception as e:
             msg = e
     return render(request,'user/logup.html',{'massage':msg})
@@ -79,14 +78,14 @@ def profile_view(request:HttpRequest,user_id):
             try:
                 s=request.user.investorprofile
             except Exception:
-                msg = 'Please complete your profile'
+                msg = 'Please update your profile'
 
         elif request.user in startups_managers:
 
             try:
                 s=request.user.startupmanagerprofile
             except Exception:
-                msg = 'Please complete your profile'
+                msg = 'Please update your profile'
 
 
 
