@@ -18,7 +18,19 @@
                     <th scope="col">Funding Round</th>
                     <th scope="col">Amount</th>
                     <th scope="col">Percentage</th>
-                    <th scope="col">Status</th>
+                    <th scope="col"><div class="dropdown">
+                        <a class="dropdown-toggle " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" >
+                            Status
+                        </a>
+                      
+                        <ul class="dropdown-menu">
+                          <li><a class="dropdown-item" href="{% url 'fund:investment_requests_view' %}?filter=Pending">Pending</a></li>
+                          <li><a class="dropdown-item" href="{% url 'fund:investment_requests_view' %}?filter=Approved">Approved</a></li>
+                          <li><a class="dropdown-item" href="{% url 'fund:investment_requests_view' %}?filter=Disapproved">Disapproved</a></li>
+                          <li><a class="dropdown-item" href="{% url 'fund:investment_requests_view' %}?filter=Canceled">Canceled</a></li>
+
+                        </ul>
+                      </div></th>
                     <th scope="col">Negotiation</th>
                     <th scope="col">Cancel offer</th>
                   </tr>
@@ -32,8 +44,8 @@
                     <td>{{investment_request.amount}} r.s</td>
                     <td>{{investment_request.percentage}}%</td>
                     <td>{{investment_request.status}}</td>
-                    <td><a href="{% url 'fund:cancel_investment_offer_view' investment_request.id  %}" class="btn btn-danger">Negotiate</a></td>
-                    <td><a href="{% url 'fund:cancel_investment_offer_view' investment_request.id  %}" class="btn btn-danger">Cancel</a></td>
+                    <td><a href="{% url 'fund:negotiate_view' investment_request.id  %}" class="btn btn-warning">Negotiate</a></td>
+                    <td><a href="{% url 'startup:approved_reqeust_view' investment_request.id %}" class="btn btn-success">Approved</a><a href="{% url 'startup:disapproved_reqeust_view' investment_request.id %}" class="btn btn-danger">Disapproved</a> </td>
 
 
                   </tr>
