@@ -132,6 +132,8 @@ def update_profile_view(request:HttpRequest):
                         manager_profile.manager_avatar = request.FILES['manager_avatar']
 
                 manager_profile.save()
+
+                return redirect('user:profile_view',request.user.id)
         
         elif request.user in investors:
             
@@ -163,6 +165,7 @@ def update_profile_view(request:HttpRequest):
                         investor_profile.inverstor_avatar = request.FILES['inverstor_avatar']
 
                 investor_profile.save()
+                return redirect('user:profile_view',request.user.id)
     
     context = {
         'invested_campanies':invested_campanies,
