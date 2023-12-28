@@ -1,13 +1,14 @@
 from django.shortcuts import render ,redirect
 from django.http import HttpRequest , HttpResponse
 from startup.models import FundingRound 
-from .models import InvestmentOffer
+from .models import InvestmentOffer , InvestmentOfferComment
 
 # Create your views here.
 
 def all_funding_round_view(request:HttpRequest):
     funding_rounds = FundingRound.objects.all()
     funding_rounds_count = funding_rounds.count()
+    
     
     return render(request,"fund/all_funding_round.html",{"funding_rounds":funding_rounds,"funding_rounds_count":funding_rounds_count})
 
@@ -23,6 +24,16 @@ def funding_round_details_view(request:HttpRequest,funding_round_id):
 
 def investment_requests_view(request:HttpRequest):
     investment_requests = InvestmentOffer.objects.filter(user=request.user)
+    if "filter" in request.GET and request.GET["filter"]=="Pending":
+        investment_requests = InvestmentOffer.objects.filter(status="Pending")
+    if "filter" in request.GET and request.GET["filter"]=="Approved":
+        investment_requests = InvestmentOffer.objects.filter(status="Approved")
+    if "filter" in request.GET and request.GET["filter"]=="Disapproved":
+        investment_requests = InvestmentOffer.objects.filter(status="Disapproved")
+    if "filter" in request.GET and request.GET["filter"]=="Canceled":
+        investment_requests = InvestmentOffer.objects.filter(status="Canceled")
+        
+
     
     return render(request,"fund/investment_requests.html",{"investment_requests":investment_requests})
 
@@ -30,6 +41,20 @@ def cancel_investment_offer_view(request:HttpRequest,investment_offer_id):
     investment_offer = InvestmentOffer.objects.get(id=investment_offer_id)
     investment_offer.delete()
     return redirect("fund:investment_requests_view")
+
+
+def negotiate_view(request:HttpRequest,investment_offer_id):
+    investment_offer = InvestmentOffer.objects.get(id=investment_offer_id)
+    comments = InvestmentOfferComment.objects.filter(investment_offer=investment_offer)
+    return render(request,"fund/negotiate.html",{"investment_offer":investment_offer,"comments":comments})
+
+
+def add_comment_view(request:HttpRequest,investment_offer_id):
+        if request.method == "POST":
+            investment_offer = InvestmentOffer.objects.get(id =investment_offer_id)
+            new_comment = InvestmentOfferComment(investment_offer=investment_offer , user=request.user,content=request.POST["content"])
+            new_comment.save()
+            return redirect("fund:negotiate.html",investment_offer_id = investment_offer.id)
     
 
 

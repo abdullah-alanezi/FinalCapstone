@@ -8,7 +8,7 @@ class InvestorProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='user_investor_profile')
     inverstor_phone_number = models.CharField(max_length=10)
     specialization = models.CharField(max_length=255)
-    inverstor_avatar = models.ImageField(upload_to='images/',default='iamges/default.jpg')
+    inverstor_avatar = models.ImageField(upload_to='images/',default='images/default.jpg')
     inverstor_birth_day = models.DateField()
     inverstor_x_link = models.URLField()
     inverstor_bio = models.TextField()

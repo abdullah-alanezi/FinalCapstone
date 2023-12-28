@@ -43,8 +43,7 @@ class FundingRound(models.Model):
     startup = models.ForeignKey(StartUp,on_delete=models.CASCADE)
     fund_percentage = models.FloatField()
     fund_amount = models.IntegerField()
-    fund_status = models.CharField(max_length=1024,choices=statuss.choices)
-    fund_current_close = models.FloatField()
+    fund_status = models.CharField(max_length=1024,choices=statuss.choices,default="Open")
     fund_stage = models.CharField(max_length=1024,choices=stages.choices)
 
     def __str__(self) -> str:

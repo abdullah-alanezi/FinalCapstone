@@ -1,0 +1,24 @@
+{% extends 'home/base.html' %}
+
+{% block title %} 
+<title>all my funding</title>
+{% endblock %}
+
+
+{% block body %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            {% for n in fund %}
+            <div class="d-flex">
+                <h1>{{n.fund_percentage}}</h1>
+                <h1>{{n.fund_status}}</h1>
+                <h1>{{n.fund_stage}}</h1>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

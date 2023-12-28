@@ -15,7 +15,7 @@
         {% for n in startup %}
         <div class="col-12 d-flex justify-content-between">
             <img src="{{n.startup_avatar.url}}" class="img">
-            <h1> {{n.startup_name}}</h1>
+            <a href="{% url 'startup:view_startup_profile_view' n.id %}" class="text-decoration-non black"><h1> {{n.startup_name}}</h1></a>
         </div>
         {% endfor %}
     </div>
