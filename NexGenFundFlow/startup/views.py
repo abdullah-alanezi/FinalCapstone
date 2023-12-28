@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpRequest,HttpResponse
 from .models import StartUp,TeamMember,FundingRound
+from fund.models import InvestmentOffer
 
 
 # Create your views here.
@@ -109,6 +110,7 @@ def funding_round_view(request:HttpRequest,startup_id):
         )
         fund.save()
         return redirect('startup:all_funding_round_view',startup_id=startup_id)
+    
     return render(request,'startup/funding_round.html',{'stage':FundingRound.stages,'startup_id':startup_id})
 
 def all_funding_round_view(request:HttpRequest,startup_id):
@@ -117,3 +119,10 @@ def all_funding_round_view(request:HttpRequest,startup_id):
     search = FundingRound.objects.filter(startup=new)
 
     return render(request,'startup/view_funding_round.html',{'fund':search})
+
+
+
+def view_funding_request(request:HttpRequest,startup_id):
+    new = StartUp.objects.get(id=startup_id)
+    investment_requests = InvestmentOffer.objects.filter(user=request.user)
+    return render(request,'startup/accept_request.html',{"investment_requests":investment_requests})
