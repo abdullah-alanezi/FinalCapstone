@@ -13,5 +13,7 @@ urlpatterns = [
     path('all/<user_id>/',views.view_all_my_stratup_view,name='view_all_my_stratup_view'),
     path('<startup_id>/funding/create/',views.funding_round_view,name='funding_round_view'),
     path('<startup_id>/all/fund/',views.all_funding_round_view,name='all_funding_round_view'),
-    path('view/<startup_id>/requests/',views.view_funding_request,name='view_funding_request'),
+    path('view/startup/<startup_id>/requests/',views.view_funding_request,name='view_funding_request'),
+    path('<request_id>/approved/request',views.approved_reqeust_view,name='approved_reqeust_view'),
+    path('<request_id>/disapproved/request',views.disapproved_reqeust_view,name='disapproved_reqeust_view'),
 ]

@@ -11,7 +11,7 @@ class InvestmentOffer(models.Model):
     amount = models.IntegerField()
     status = models.CharField(max_length=64,choices=status.choices, default=status.Pending)
     
-    
+
 class InvestmentOfferComment(models.Model):
     investment_offer = models.ForeignKey(InvestmentOffer, on_delete=models.CASCADE)
     user = models.ForeignKey(User,on_delete=models.CASCADE)
