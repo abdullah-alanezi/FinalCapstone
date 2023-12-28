@@ -137,9 +137,15 @@ def approved_reqeust_view(request:HttpRequest,request_id):
     new = InvestmentOffer.objects.get(id=request_id)
     new.status = 'Approved'
     new.save()
-    
-    return redirect('startup:view_funding_request',startup_id=request_id)
+    investment_requests = InvestmentOffer.objects.filter(funding_round=request_id)
+
+    return render(request,'startup/accept_request.html',{"investment_requests":investment_requests})
 
 def disapproved_reqeust_view(request:HttpRequest,request_id):
 
-    return redirect('startup:view_funding_request',startup_id=request_id)
+    new = InvestmentOffer.objects.get(id=request_id)
+    new.status = 'Disapproved'
+    new.save()
+    investment_requests = InvestmentOffer.objects.filter(funding_round=request_id)
+
+    return render(request,'startup/accept_request.html',{"investment_requests":investment_requests})
