@@ -1,7 +1,7 @@
 {% extends 'home/base.html' %}
 {% load static %}
 
-{% block title %}{% endblock %}
+{% block title %} <title>Update Profile</title> {% endblock %}
 
 
 
@@ -70,7 +70,7 @@
                 <div class="row">
                     <div class="col-6">
                         <label for="manager_birth_day">Birth Day:</label>
-                        <input type="date" id="manager_birth_day" value="{{user.startupmanagerprofile.manager_birth_day}}" name="manager_birth_day" class="form-control" required>
+                        <input type="date" id="manager_birth_day" value="{{ user.startupmanagerprofile.manager_birth_day|date:'Y-m-d' }}"  name="manager_birth_day" class="form-control" required>
                     </div>
 
                     <div class="col-6">
@@ -174,7 +174,7 @@
                 <div class="row">
                     <div class="col-6">
                         <label for="manager_birth_day">Birth Day:</label>
-                        <input type="date" id="inverstor_birth_day" name="inverstor_birth_day" class="form-control" required>
+                        <input type="date" id="inverstor_birth_day" value="{{ user.investorprofile.inverstor_birth_day|date:'Y-m-d' }}"  name="inverstor_birth_day" class="form-control" required>
                     </div>
 
                     <div class="col-6">
@@ -219,5 +219,10 @@
     </div>
 </div>
 </section>
+
+
+
+
+
 
 {% endblock %}

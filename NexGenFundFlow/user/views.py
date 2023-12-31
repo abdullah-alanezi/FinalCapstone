@@ -11,7 +11,7 @@ def logup_view(request:HttpRequest):
     if request.method == 'POST':
         try:
             
-            user = User.objects.create_user(username=request.POST['username'],first_name = request.POST['first_name'],last_name=request.POST['last_name'],email = request.POST['email'],password = request.POST['password'])
+            user = User.objects.create_user(username=request.POST['username'],email = request.POST['email'],password = request.POST['password'])
             user.save()
 
             user_field = request.POST.get('selected_option')
@@ -26,8 +26,12 @@ def logup_view(request:HttpRequest):
                 if not user.groups.filter(name='StartupsManagers').exists():
                     group = Group.objects.get(name="StartupsManagers")
                     user.groups.add(group)
+
+            user = authenticate(request, username=request.POST['username'],password=request.POST['password'])
+
+            if user:
+                login(request,user)
             
-            login(request,user)
             return redirect('user:profile_view',request.user.id)
        
         except Exception as e:

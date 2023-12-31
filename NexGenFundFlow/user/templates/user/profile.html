@@ -2,9 +2,7 @@
 
 {% load static %}
 
-{% block title %} <title>profile</title>{% endblock %}
-
-
+{% block title %} <title>Profile</title>{% endblock %}
 
 {% block body %}
 
@@ -17,13 +15,13 @@
             {% if request.user.id == user.id %}
             {% if massage %}
             <div class="alert alert-danger" role="alert">
-                {{massage}}
+                {{ massage }}
             </div>
             {% endif %}
             {% endif %}
             <div class="card">
                 <div class="card-header">
-                    <h2 class="text-center">{{user.first_name}} {{user.last_name}}</h2>
+                    <h2 class="text-center">{{ user.first_name }} {{ user.last_name }}</h2>
                 </div>
                 <div class="card-body">
                     <!-- Profile Image -->
@@ -54,7 +52,6 @@
 </div>
 {% endif %}
 
-
 {% if user in startups_managers %}
 <div class="container mt-5">
     <div class="row justify-content-center">
@@ -63,21 +60,21 @@
             {% if request.user.id == user.id %}
             {% if massage %}
             <div class="alert alert-danger" role="alert">
-                {{massage}}
+                {{ massage }}
             </div>
             {% endif %}
             {% endif %}
             <div class="card">
                 <div class="card-header">
-                    <h2 class="text-center">{{user.first_name}} {{user.last_name}}</h2>
+                    <h2 class="text-center">{{ user.first_name }} {{ user.last_name }}</h2>
                 </div>
                 <div class="card-body">
-                    <!-- Profile Image -->
+                    
                     <img src="{{ user.startupmanagerprofile.manager_avatar.url }}" class="img-fluid rounded-circle mx-auto d-block" alt="Profile Image" style="max-width: 150px;">
 
                     <!-- Profile Details -->
                     <div class="mt-4">
-                        <p><strong>Position</strong>{{ user.startupmanagerprofile.position }}</p>
+                        <p><strong>Position:</strong> {{ user.startupmanagerprofile.position }}</p>
                         <p><strong>Birth Day:</strong> {{ user.startupmanagerprofile.manager_birth_day }}</p>
                         <p><strong>City:</strong> {{ user.startupmanagerprofile.manager_city }}</p>
                         <p><strong>Phone Number:</strong> {{ user.startupmanagerprofile.manager_phone_number }}</p>
@@ -85,7 +82,7 @@
                         <p><strong>X-Link: </strong> <a href="{{ user.startupmanagerprofile.manager_x_link }}" target="_blank"><i class="bi bi-twitter-x"></i></a></p>
                     </div>
 
-                    <!-- Biography -->
+                    
                     <div class="mt-4">
                         <h5>Bio</h5>
                         <p>{{ user.startupmanagerprofile.manager_bio }}</p>
@@ -99,6 +96,7 @@
     </div>
 </div>
 {% endif %}
+
 </section>
 
 {% endblock %}
