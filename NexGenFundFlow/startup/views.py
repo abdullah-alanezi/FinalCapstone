@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpRequest,HttpResponse
 from .models import StartUp,TeamMember,FundingRound
 from fund.models import InvestmentOffer
+from django.shortcuts import get_object_or_404
 
 
 # Create your views here.
@@ -98,6 +99,22 @@ def add_team_member_view(request:HttpRequest,startup_id):
 
 
 
+def all_funding_round_view(request:HttpRequest,startup_id):
+    new = StartUp.objects.get(id=startup_id)
+
+    search = FundingRound.objects.filter(startup=new)
+
+    return render(request,'startup/view_funding_round.html',{'fund':search})
+
+
+
+def disapprove_request_view(request, request_id):
+    investment_request = get_object_or_404(InvestmentOffer, id=request_id)
+    investment_request.status = 'Disapproved'
+    investment_request.save()
+    return redirect('startup:view_funding_request', startup_id=investment_request.funding_round.startup.id)
+
+
 def funding_round_view(request:HttpRequest,startup_id):
     sit = StartUp.objects.get(id=startup_id)
 
@@ -113,39 +130,22 @@ def funding_round_view(request:HttpRequest,startup_id):
     
     return render(request,'startup/funding_round.html',{'stage':FundingRound.stages,'startup_id':startup_id})
 
-def all_funding_round_view(request:HttpRequest,startup_id):
+def approved_reqeust_view(request:HttpRequest, request_id):
+    if request.method == 'POST':
+        investment_request = InvestmentOffer.objects.get(id=request_id)
+        investment_request.status = 'Approved'
+        investment_request.save()
+       
+        return redirect('startup:view_funding_request', startup_id=investment_request.funding_round.startup.id)
+
+def view_funding_request(request: HttpRequest, startup_id):
     new = StartUp.objects.get(id=startup_id)
+    funding_rounds = FundingRound.objects.filter(startup=new)
+    investment_requests = InvestmentOffer.objects.filter(funding_round__in=funding_rounds)
+    return render(request, 'startup/accept_request.html', {"investment_requests": investment_requests})
 
-    search = FundingRound.objects.filter(startup=new)
-
-    return render(request,'startup/view_funding_round.html',{'fund':search})
-
-
-
-def view_funding_request(request:HttpRequest,startup_id):
-    new = StartUp.objects.get(id=startup_id)
-
-    n = FundingRound.objects.get(id=new.id)
-
-    investment_requests = InvestmentOffer.objects.filter(funding_round=n)
-    
-    return render(request,'startup/accept_request.html',{"investment_requests":investment_requests})
-
-
-def approved_reqeust_view(request:HttpRequest,request_id):
-
-    new = InvestmentOffer.objects.get(id=request_id)
-    new.status = 'Approved'
-    new.save()
-    investment_requests = InvestmentOffer.objects.filter(funding_round=request_id)
-
-    return render(request,'startup/accept_request.html',{"investment_requests":investment_requests})
-
-def disapproved_reqeust_view(request:HttpRequest,request_id):
-
-    new = InvestmentOffer.objects.get(id=request_id)
-    new.status = 'Disapproved'
-    new.save()
-    investment_requests = InvestmentOffer.objects.filter(funding_round=request_id)
-
-    return render(request,'startup/accept_request.html',{"investment_requests":investment_requests})
+def disapproved_reqeust_view(request, request_id):
+    investment_request = get_object_or_404(InvestmentOffer, id=request_id)
+    investment_request.status = 'Disapproved'
+    investment_request.save()
+    return redirect('startup:view_funding_request', startup_id=investment_request.funding_round.startup.id)
