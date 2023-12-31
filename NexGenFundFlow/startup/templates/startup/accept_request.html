@@ -1,7 +1,7 @@
 {% extends 'home/base.html' %}
 
 {% block title %}
-<title> Investment requests </title>
+<title>Investment requests</title>
 {% endblock %}
 
 {% block body %}
@@ -13,50 +13,50 @@
         <div class="col">
             <table class="table">
                 <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Funding Round</th>
-                    <th scope="col">Amount</th>
-                    <th scope="col">Percentage</th>
-                    <th scope="col"><div class="dropdown">
-                        <a class="dropdown-toggle " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" >
-                            Status
-                        </a>
-                      
-                        <ul class="dropdown-menu">
-                          <li><a class="dropdown-item" href="{% url 'fund:investment_requests_view' %}?filter=Pending">Pending</a></li>
-                          <li><a class="dropdown-item" href="{% url 'fund:investment_requests_view' %}?filter=Approved">Approved</a></li>
-                          <li><a class="dropdown-item" href="{% url 'fund:investment_requests_view' %}?filter=Disapproved">Disapproved</a></li>
-                          <li><a class="dropdown-item" href="{% url 'fund:investment_requests_view' %}?filter=Canceled">Canceled</a></li>
-
-                        </ul>
-                      </div></th>
-                    <th scope="col">Negotiation</th>
-                    <th scope="col">Cancel offer</th>
-                  </tr>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Funding Round</th>
+                        <th scope="col">Amount</th>
+                        <th scope="col">Percentage</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Negotiation</th>
+                        <th scope="col">Actions</th>
+                        <th scope="col">Print Contract</th>
+                    </tr>
                 </thead>
-                <tbody class="table-group-divider"></tbody>
-                {% for investment_request in investment_requests %}
-                
-                <tr>
-                    <th scope="row">{{forloop.counter}}</th>
-                    <td>{{investment_request.funding_round.startup.startup_name}}</td>
-                    <td>{{investment_request.amount}} r.s</td>
-                    <td>{{investment_request.percentage}}%</td>
-                    <td>{{investment_request.status}}</td>
-                    <td><a href="{% url 'fund:negotiate_view' investment_request.id  %}" class="btn btn-warning">Negotiate</a></td>
-                    <td><a href="{% url 'startup:approved_reqeust_view' investment_request.id %}" class="btn btn-success">Approved</a><a href="{% url 'startup:disapproved_reqeust_view' investment_request.id %}" class="btn btn-danger">Disapproved</a> </td>
-
-
-                  </tr>
-                  {% endfor %}
-
+                <tbody>
+                    {% for investment_request in investment_requests %}
+                    <tr>
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td>{{ investment_request.funding_round.startup.startup_name }}</td>
+                        <td>{{ investment_request.amount }} r.s</td>
+                        <td>{{ investment_request.percentage }}%</td>
+                        <td>{{ investment_request.status }}</td>
+                        <td>
+                            <a href="{% url 'fund:negotiate_view' investment_request.id %}" class="btn btn-warning">Negotiate</a>
+                        </td>
+                        <td>
+                            {% if investment_request.status == 'Pending' %}
+                            <form method="post" action="{% url 'startup:approved_reqeust_view' investment_request.id %}">
+                              {% csrf_token %}
+                                    <input type="submit" value="Approve" class="btn btn-success">
+                                    <input type="submit" value="Disapprove" formaction="{% url 'startup:disapproved_reqeust_view' investment_request.id %}" class="btn btn-danger">
+                                </form>
+                            {% endif %}
+                            <a href="{% url 'fund:cancel_investment_offer_view' investment_request.id %}" class="btn btn-danger">Cancel</a>
+                        </td>
+                        <td>
+                            {% if investment_request.status == 'Approved' %}
+                                <a href="{% url 'contract:create_deal_pdf' investment_request.id %}" class="btn btn-info">Print Contract</a>
+                            {% else %}
+                            Waiting for approval
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
                 </tbody>
-              </table>
+            </table>
         </div>
-
     </div>
-
 </div>
-
 {% endblock %}
