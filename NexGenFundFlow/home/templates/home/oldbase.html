@@ -9,43 +9,47 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
 
 </head>
-<body class="mt-0">
-      <header id="header" class="header-front-page " style="background-image: url(https://149842022.v2.pressablecdn.com/illdy/wp-content/themes/illdy/layout/images/front-page/front-page-header.jpg);background-attachment: fixed;">
-        <div class="top-header vh-100">
-          <div class="container">
-            <div class="row d-flex">
-              <div class="col-sm-2 col-xs-8">
-                <a href="https://colorlibhub.com/illdy" title="Illdy Theme Demo">
-                  <img class="header-logo-img" src="https://149842022.v2.pressablecdn.com/illdy/wp-content/uploads/sites/58/2016/03/cropped-footer-logo-1.png" width="">
+<body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="{% url 'home:home_view' %}">NexGen FundFlow</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="{% url 'home:home_view' %}">Home</a>   
+              </li>
+              <a class="nav-link active" aria-current="page" href="{% url 'fund:all_funding_round_view' %}">Funding Rounds</a>
+            </ul>
+            <div class="d-flex gap-2">
+              {% if request.user.is_authenticated %}
+              <lu class="nav-item dropdown me-4">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Welcome, Mr.{{user.username}}
                 </a>
-              </div>
-              <div class="col-sm-8 col-xs-4 d-flex ">
-                <nav class="navbar navbar-expand-lg header-navigation">
-                  <ul class="navbar-nav me-auto mb-2 mb-lg-0 d-flex">
-                    <li  class="nav-item text-decoration-none"><a href="" class="nav-link active" aria-current="page">Home</a></li>
-                    <li  class="nav-item text-decoration-none"><a href="" class="nav-link active" aria-current="page">Enturprenur</a>
-                    <li  class="nav-item text-decoration-none"><a href="" class="nav-link active" aria-current="page">StratUps</a>
-                    <li  class="nav-item text-decoration-none"><a href="" class="nav-link active" aria-current="page">Blog</a>
-                    <li  class="nav-item text-decoration-none"><a href="" class="nav-link active" aria-current="page">Our Team</a>
-                    <li  class="nav-item text-decoration-none"><a href="" class="nav-link active" aria-current="page">Contact Us</a>
-                  </ul>
-                </nav>
-              </div>
-              <div class="col-sm-2 col-xs-4 d-flex ">
-                <nav class="navbar navbar-expand-lg header-navigation">
-                  <ul class="navbar-nav me-auto mb-2 mb-lg-0 d-flex">
-                    <li  class="nav-item text-decoration-none"><a href="" class="nav-link active" aria-current="page">Login</a></li>
-                    <li  class="nav-item text-decoration-none"><a href="" class="nav-link active" aria-current="page">SginUp</a>
-                  </ul>
-                </nav>
-              </div>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item w-50" href="">Profile</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="{% url 'startup:create_startup_view' %}">Create Startup</a></li>
+                  <li><a class="dropdown-item" href="{% url 'startup:view_all_my_stratup_view' request.user.id %}">Startup</a></li>
+                  <li><a class="dropdown-item text-danger" href="{% url 'user:logout_view' %}">Logout</a></li>
+                </ul>
+              </lu>
+              
+              {% else %}
+                <a class="nav-link" href="{% url 'user:login_view' %}">Login</a>
+                <a class="nav-link" href="{% url 'user:logup_view' %}">SignUp</a>
+              {% endif %}
             </div>
           </div>
         </div>
-        </header>
-
+      </nav>
+        <div class="container vh-100">
         {% block body %} 
         {% endblock %}
+        </div>
         <!-- Footer -->
         <div class="container pt-5">
             <footer class="py-5">
