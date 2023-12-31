@@ -11,7 +11,7 @@ def logup_view(request:HttpRequest):
     if request.method == 'POST':
         try:
             
-            user = User.objects.create_user(username=request.POST['username'],first_name = request.POST['first_name'],last_name=request.POST['last_name'],email = request.POST['email'],password = request.POST['password'])
+            user = User.objects.create_user(username=request.POST['username'],email = request.POST['email'],password = request.POST['password'])
             user.save()
 
             user_field = request.POST.get('selected_option')
@@ -26,11 +26,14 @@ def logup_view(request:HttpRequest):
                 if not user.groups.filter(name='StartupsManagers').exists():
                     group = Group.objects.get(name="StartupsManagers")
                     user.groups.add(group)
+
+            user = authenticate(request, username=request.POST['username'],password=request.POST['password'])
+
+            if user:
+                login(request,user)
             
-            login(request,user)
             return redirect('user:profile_view',request.user.id)
-            #return profile page
-            #return redirect('user:')
+       
         except Exception as e:
             msg = e
     return render(request,'user/logup.html',{'massage':msg})
@@ -79,14 +82,14 @@ def profile_view(request:HttpRequest,user_id):
             try:
                 s=request.user.investorprofile
             except Exception:
-                msg = 'Please complete your profile'
+                msg = 'Please update your profile'
 
         elif request.user in startups_managers:
 
             try:
                 s=request.user.startupmanagerprofile
             except Exception:
-                msg = 'Please complete your profile'
+                msg = 'Please update your profile'
 
 
 
@@ -133,6 +136,8 @@ def update_profile_view(request:HttpRequest):
                         manager_profile.manager_avatar = request.FILES['manager_avatar']
 
                 manager_profile.save()
+
+                return redirect('user:profile_view',request.user.id)
         
         elif request.user in investors:
             
@@ -164,6 +169,7 @@ def update_profile_view(request:HttpRequest):
                         investor_profile.inverstor_avatar = request.FILES['inverstor_avatar']
 
                 investor_profile.save()
+                return redirect('user:profile_view',request.user.id)
     
     context = {
         'invested_campanies':invested_campanies,
