@@ -16,4 +16,6 @@ urlpatterns = [
     path('view/startup/<startup_id>/requests/',views.view_funding_request,name='view_funding_request'),
     path('<request_id>/approved/request',views.approved_reqeust_view,name='approved_reqeust_view'),
     path('<request_id>/disapproved/request',views.disapproved_reqeust_view,name='disapproved_reqeust_view'),
+    path('<startup_id>/funding/create/', views.all_funding_round_view, name='funding_round_view'),
+
 ]
