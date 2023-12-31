@@ -1,41 +1,55 @@
-from django.shortcuts import render, redirect
-from django.http import HttpRequest, HttpResponse
-from django.shortcuts import render
-from django.http import HttpResponse
-from reportlab.pdfgen import canvas
-from reportlab.lib.pagesizes import letter, landscape
+from django.shortcuts import render, redirect, HttpResponse
+from django.contrib.auth.decorators import login_required
+from user.models import InvestorProfile
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image, Table, TableStyle
+from reportlab.lib.pagesizes import letter
 from reportlab.lib.units import inch
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
-from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib import colors
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.lib.enums import TA_CENTER
 from datetime import datetime
 import io
-from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-from reportlab.lib.enums import TA_JUSTIFY, TA_LEFT, TA_CENTER
+from fund.models import InvestmentOffer
+from datetime import datetime, timedelta
 
+@login_required
+def your_form_view(request):
+    investor_name = None
+    if InvestorProfile.objects.filter(user=request.user).exists():
+        investor_profile = InvestorProfile.objects.get(user=request.user)
+        investor_name = investor_profile.user.get_full_name()
 
-def deal_form(request):
-    if request.method == 'POST':
-        return create_deal_pdf(request)
-    return render(request, 'contract/deal_form.html')
+    context = {'investor_name': investor_name}
+    return render(request, 'contract/deal_form.html', context)
 
-def create_deal_pdf(request):
-    investor_name = request.POST.get('investor_name', '__________')
-    company_name = request.POST.get('company_name', '__________')
-    investment_percentage = request.POST.get('investment_percentage', '___')
-    investment_amount = request.POST.get('investment_amount', '__________')
-    agreement_date = request.POST.get('agreement_date') or datetime.now().strftime('%Y-%m-%d')
+@login_required
+def create_deal_pdf(request, investment_request_id):
+    try:
+        investment_offer = InvestmentOffer.objects.get(id=investment_request_id)
+    except InvestmentOffer.DoesNotExist:
+        return HttpResponse("Investment offer not found.", status=404)
+
+    investor_name = investment_offer.user.get_full_name() if investment_offer.user else 'Unknown Investor'
+    company_name = investment_offer.funding_round.startup.startup_name
+    investment_percentage = investment_offer.percentage
+    investment_amount = investment_offer.amount
+    agreement_date = datetime.now().strftime('%Y-%m-%d')
+    payment_due_date = (datetime.now() + timedelta(days=30)).strftime('%Y-%m-%d')
 
     buffer = io.BytesIO()
-
     doc = SimpleDocTemplate(buffer, pagesize=letter, rightMargin=inch, leftMargin=inch, topMargin=inch, bottomMargin=inch)
     styles = getSampleStyleSheet()
 
-    contract_title = ParagraphStyle(name='ContractTitle', fontSize=18, spaceAfter=20, alignment=1)
+    contract_title = ParagraphStyle(name='ContractTitle', fontSize=18, spaceAfter=20, alignment=TA_CENTER)
     contract_clause = ParagraphStyle(name='ContractClause', fontSize=10, leading=12)
     contract_clause_bold = ParagraphStyle(name='ContractClauseBold', fontSize=10, leading=12, spaceAfter=6, fontName='Helvetica-Bold')
 
-    elements = [Paragraph("Investment Agreement", contract_title)]
+    logo = "media/images/default.jpg"
+    logo_img = Image(logo, 2*inch, 1*inch)
+    logo_img.hAlign = 'CENTER'
+
+    elements = [logo_img]
+    elements.append(Paragraph("Investment Agreement", contract_title))
 
     clauses = [
         "This Agreement is made and entered into by and between:",
@@ -46,10 +60,8 @@ def create_deal_pdf(request):
         "WHEREAS, the Investor wishes to invest capital in the Company, and the Company wishes to accept the investment under the following terms:",
         f"1. Investment Amount: The Investor agrees to invest an amount of <u>${investment_amount}</u> into the Company.",
         f"2. Investment Percentage: For the investment amount, the Investor will receive an equity stake of <u>{investment_percentage}%</u> in the Company.",
-        "3. Use of Funds: The Company shall utilize the invested funds for business development and growth initiatives as previously agreed upon.",
-        "4. Governing Law: This Agreement shall be governed by the laws of the jurisdiction in which the Company is registered.",
-        "5. Entire Agreement: This document and any exhibits attached constitute the entire agreement between the Parties.",
-        "6. Amendment: Any amendments to this Agreement must be in writing and signed by both Parties.",
+        f"3. Payment Due: The payment is due 30 days from the signing of this agreement, which is on <u>{payment_due_date}</u>.",
+
         "IN WITNESS WHEREOF, the Parties have executed this Agreement as of the date first above written."
     ]
 
@@ -59,17 +71,27 @@ def create_deal_pdf(request):
         elements.append(Spacer(1, 12))
 
     elements.append(Spacer(1, 24))
-    elements.append(Paragraph("Investor Signature: _______________________", contract_clause))
-    elements.append(Paragraph("Company Representative Signature: _______________________", contract_clause))
-    elements.append(Spacer(1, 48))
 
-    elements.append(Paragraph(f"Date: <u>{agreement_date}</u>", contract_clause))
+    signature_data = [
+        [Paragraph(f"Investor Signature: <br/><br/><br/><u>{investor_name}</u>", contract_clause),
+         Paragraph(f"Company Representative Signature: <br/><br/><br/><u>{company_name}</u>", contract_clause)]
+    ]
 
+    signature_table = Table(signature_data, colWidths=[3*inch, 3*inch], rowHeights=[0.75*inch])
+    signature_table.setStyle(TableStyle([
+        ('LINEBEFORE', (1, 0), (1, 0), 0.5, colors.black),
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+        ('VALIGN', (0, 0), (-1, -1), 'BOTTOM'),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 12),
+        ('LINEBELOW', (0, 0), (-1, -1), 1, colors.black),
+    ]))
+
+    elements.append(signature_table)
     doc.build(elements)
 
     pdf = buffer.getvalue()
     buffer.close()
-
     response = HttpResponse(pdf, content_type='application/pdf')
     response['Content-Disposition'] = 'attachment; filename="investment_agreement.pdf"'
+
     return response
