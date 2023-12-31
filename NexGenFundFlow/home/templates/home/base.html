@@ -34,8 +34,24 @@
               <div class="col-sm-2 col-xs-4 d-flex ">
                 <nav class="navbar navbar-expand-lg header-navigation">
                   <ul class="navbar-nav me-auto mb-2 mb-lg-0 d-flex">
-                    <li  class="nav-item text-decoration-none"><a href="" class="nav-link active" aria-current="page">Login</a></li>
-                    <li  class="nav-item text-decoration-none"><a href="" class="nav-link active" aria-current="page">SginUp</a>
+                    {% if request.user.is_authenticated %}
+                    <lu class="nav-item dropdown me-4">
+                      <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Welcome, Mr.{{user.username}}
+                      </a>
+                      <ul class="dropdown-menu">
+                        <li><a class="dropdown-item w-50" href="">Profile</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="{% url 'startup:create_startup_view' %}">Create Startup</a></li>
+                        <li><a class="dropdown-item" href="{% url 'startup:view_all_my_stratup_view' request.user.id %}">Startup</a></li>
+                        <li><a class="dropdown-item text-danger" href="{% url 'user:logout_view' %}">Logout</a></li>
+                      </ul>
+                    </lu>
+                    
+                    {% else %}
+                    <a class="nav-link" href="{% url 'user:login_view' %}">Login</a>
+                    <a class="nav-link" href="{% url 'user:logup_view' %}">SignUp</a>
+                    {% endif %}
                   </ul>
                 </nav>
               </div>
