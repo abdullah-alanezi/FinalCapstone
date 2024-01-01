@@ -54,7 +54,7 @@ def add_comment_view(request:HttpRequest,investment_offer_id):
             investment_offer = InvestmentOffer.objects.get(id =investment_offer_id)
             new_comment = InvestmentOfferComment(investment_offer=investment_offer , user=request.user,content=request.POST["content"])
             new_comment.save()
-            return redirect("fund:negotiate.html",investment_offer_id = investment_offer.id)
+            return redirect("fund:negotiate_view",investment_offer_id = investment_offer.id)
     
 
 
