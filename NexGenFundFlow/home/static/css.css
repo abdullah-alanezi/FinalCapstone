@@ -6,11 +6,11 @@
 .img{
     width: 40px;
     height: auto;
+    
 }
 /* custom.css */
 body {
     background-color: #f4f7f6;
-    margin-top: 20px;
 }
 
 .card {
@@ -48,3 +48,11 @@ body {
 }
 
 /* Add any additional custom styles you desire */
+
+
+
+/* startup sections */
+.primary-color-1 {
+    background-color: #ffffff
+}
+/* startup sections ends */
