@@ -3,88 +3,113 @@
 
 
 {% block body %}
-<div class="container ms-0">
+<section class="mb-3">
+    <div class="container primary-color-1 p-3 border rounded mt-5 mb-5">
+        <form class="row justify-content-center" action="{% url 'startup:create_startup_view' %}" method="POST" enctype="multipart/form-data">     
+            {% if massage %}
+            <div class="alert alert-danger" role="alert">
+                {{massage}}
+            </div>
+            {% endif %}
+            {% csrf_token %}
+            <div class="d-flex justify-content-between">
+                <legend>brows Startup</legend> 
+                <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                    <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        Profile management
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{% url 'startup:edit_startup_view' startup.id %}">Edit</a></li>
+                        <li><a class="dropdown-item" href="{% url 'startup:add_team_member_view' startup.id %}">Add Team Member</a></li>
+                        <li><a class="dropdown-item" href="{% url 'startup:team_view' startup.id %}">View Team Member</a></li>
+                        <li><a class="dropdown-item" href="{% url 'startup:funding_round_view' startup.id %}">Create Funding Round</a></li>
+                        <li><a class="dropdown-item" href="{% url 'startup:all_funding_round_view' startup.id %}">View Funding Round</a></li>
+                        <li><a class="dropdown-item" href="{% url 'startup:view_funding_request' startup.id %}">View Funding Request</a></li>
 
-    <form class="row" action="{% url 'startup:create_startup_view' %}" method="POST" enctype="multipart/form-data">
+                    </ul>
+                    </div>
+                </div>
+            </div>
+
+                <div class="col-md-4">
+                    <label class="from-label">Startup Name:</label>
+                    <input type="text" name="startup_name" class="form-control" value="{{startup.startup_name}}" disabled>
+                </div>
+                
+                <div class="col-md-4">
+                    <label class="from-label">Startup Founder:</label>
+                    <input type="text" name="startup_founder_name" class="form-control" value="{{startup.startup_founder_name}}" disabled>
+                </div>
+                <div class="col-md-4">
+                    <label class="from-label">Startup Sector:</label>
+                    <select name="startup_sector" class="form-select" disabled>
+                        <option value="{{startup.startup_sector}}" selected>{{startup.startup_sector}}</option>
+                    </select>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="from-label">Startup Number:</label>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">+966</span>
+                        <input type="number" class="form-control" placeholder="Number" name="startup_number" value="{{startup.startup_number}}" disabled>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="from-label">Startup Target Market:</label>
+                    <input type="text" name="startup_target_market" class="form-control" value="{{startup.startup_target_market}}" disabled>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="from-label">Startup Avatar: Current:<a href="{{startup.startup_avatar.url}}">{{startup.startup_avatar.url}}</a></label>
+                    <input type="file" name="startup_avatar" class="form-control" disabled>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="from-label">Startup Websit:</label>
+                    <input type="text" name="startup_websits" class="form-control" value="{{startup.startup_websits}}" disabled>
+                </div>
+                <div class="col-md-6">
+                    <label class="from-label">Startup Email:</label>
+                    <input type="email" name="startup_email" class="form-control" value="{{startup.startup_email}}" disabled>
+                </div>
+                <div class="col-md-12">
+                    <label class="from-label">Startup Description:</label>
+                    <textarea name="startup_description" class="form-control" disabled>
+                        {{startup.startup_description}}
+                    </textarea>
+                </div>
+        </form>
+    </div>
+</section>
+<section class="primary-color-1 p-3">
+    <div class="container border mt-5 rounded" >
+        <legend>Team Member</legend>
         
-        {% if massage %}
-        <div class="alert alert-danger" role="alert">
-            {{massage}}
-        </div>
-        {% endif %}
-
-        {% csrf_token %}
-        <div class="d-flex justify-content-between ">
-            <h1>brows Startup</h1>
-            <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                <div class="btn-group" role="group">
-                  <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                    Profile management
-                  </button>
-                  <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="{% url 'startup:edit_startup_view' startup.id %}">Edit</a></li>
-                    <li><a class="dropdown-item" href="{% url 'startup:add_team_member_view' startup.id %}">Add Team Member</a></li>
-                    <li><a class="dropdown-item" href="{% url 'startup:team_view' startup.id %}">View Team Member</a></li>
-                    <li><a class="dropdown-item" href="{% url 'startup:funding_round_view' startup.id %}">Create Funding Round</a></li>
-                    <li><a class="dropdown-item" href="{% url 'startup:all_funding_round_view' startup.id %}">View Funding Round</a></li>
-                    <li><a class="dropdown-item" href="{% url 'startup:view_funding_request' startup.id %}">View Funding Request</a></li>
-
-                  </ul>
+        <div class="row m-5 ">
+            {% for n in team %}
+            <div class="d-flex col-8 justify-content-start border rounded m-1">
+                <div class="p-3 ms-2">
+                    <img src="{{n.team_avatar.url}}" alt="team image" class="rounded-circle" style="height: 100px; width: 100px;">
+                </div>
+                <div class="text-start">
+                    <p><b>Member Name: </b>{{n.team_name}}</p>
+                    <p><b>Member Role: </b>{{n.team_role}}</p>
+                    <p><a class="bi bi-linkedin" href="{{n.team_linkdin}}"></a></p>
                 </div>
             </div>
-        </div>
-
-        <fieldset disabled="disabled">
-            <div class="col-md-4 m-0">
-                <label class="from-label">Startup Name:</label>
-                <input type="text" name="startup_name" class="form-control" value="{{startup.startup_name}}">
-            </div>
-            
-            <div class="col-md-4">
-                <label class="from-label">Startup Founder:</label>
-                <input type="text" name="startup_founder_name" class="form-control" value="{{startup.startup_founder_name}}">
-            </div>
-            <div class="col-md-4">
-                <label class="from-label">Startup Sector:</label>
-                <select name="startup_sector" class="form-select">
-                    <option value="{{startup.startup_sector}}" selected>{{startup.startup_sector}}</option>
-                </select>
-            </div>
-
-            <div class="col-md-4">
-                <label class="from-label">Startup Number:</label>
-                <div class="input-group mb-3">
-                    <span class="input-group-text">+966</span>
-                    <input type="number" class="form-control" placeholder="Number" name="startup_number" value="{{startup.startup_number}}">
+            <div class="d-flex col-4 justify-content-between mb-5">
+                <div>
+                    <a class="btn btn-danger" href="{% url 'startup:delete_member_view' n.id %}">Delete Member</a>
+                </div>
+                <div>
+                    <a class="btn btn-primary" href="{% url 'startup:edit_member_profile_view' n.id%}">View Member Profile</a>
                 </div>
             </div>
-
-            <div class="col-md-4">
-                <label class="from-label">Startup Target Market:</label>
-                <input type="text" name="startup_target_market" class="form-control" value="{{startup.startup_target_market}}">
-            </div>
-
-            <div class="col-md-4">
-                <label class="from-label">Startup Avatar: Current:<a href="{{startup.startup_avatar.url}}">{{startup.startup_avatar.url}}</a></label>
-                <input type="file" name="startup_avatar" class="form-control">
-            </div>
-
-            <div class="col-md-6">
-                <label class="from-label">Startup Websit:</label>
-                <input type="text" name="startup_websits" class="form-control" value="{{startup.startup_websits}}">
-            </div>
-            <div class="col-md-6">
-                <label class="from-label">Startup Email:</label>
-                <input type="email" name="startup_email" class="form-control" value="{{startup.startup_email}}">
-            </div>
-            <div class="col-md-12">
-                <label class="from-label">Startup Description:</label>
-                <textarea name="startup_description" class="form-control">
-                    {{startup.startup_description}}
-                </textarea>
-            </div>
-
-        </fieldset>
-    </form>
-</div>
+            <hr>
+            {% endfor %}
+        </div>
+    </div>
+</section>
 {% endblock %}

@@ -5,26 +5,61 @@
 {% endblock %}
 
 {% block body %}
-<div class="container">
-    <div class="card m-3" >
-      <div class="row g-0 ">
-    {% for funding_round in funding_rounds %}
 
-        <div class="col-md-4 ">
-          <img src="{{funding_round.startup.startup_avatar.url}}" class="img-fluid rounded-start" alt="startup avatar">
+
+<div class="container">
+    
+      <div class="row ">
+    {% for funding_round in funding_rounds %}
+    <div class="col mb-3">
+      <div class="card shadow" style="width: 19rem; height: auto;">
+        <div class="d-flex justify-content-between">
+          <img src="{{funding_round.startup.startup_avatar.url}}" class="img-fluid rounded-pill img" alt="startup avatar">
+          {% if funding_round.fund_status == "Open" %}
+          <p class="card-text"><small class="badge text-bg-success">{{funding_round.fund_status}}</small></p>
+          {% else %}
+          <p class="card-text"><small class="badge text-bg-danger">{{funding_round.fund_status}}</small></p>
+          {% endif %}
         </div>
-        <div class="col-md-8">
-          <div class="card-body">
-            <h5 class="card-title">{{funding_round.startup.startup_name}}</h5>
-            <p class="card-text">{{funding_round.startup.startup_description}}</p>
-            <p class="card-text"><small class="text-body-secondary">{{funding_round.fund_status}}</small></p>
-            <a href="{% url 'fund:funding_round_details_view' funding_round.id %}" class="btn btn-primary">More details</a>
+        <div class="card-body text-center">
+          <h5 class="card-title ">{{funding_round.startup.startup_name}}</h5>
+          <div class="align-items-end p-0 m-0">
+            <small class="text-body-secondary  ">Investment value</small>
+            <h3> {{funding_round.fund_amount}} SAR</h3>
+
+            <div class="progress" role="progressbar" aria-label="Info example" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
+              <div class="progress-bar bg-info text-dark " style="width: 50%">50%</div>
+            </div>
+            <small class="text-body-secondary ">been covered</small>
+        </div>
+          <p class="card-text d-inline-block text-truncate mt-3" style="max-width: 200px;">{{funding_round.startup.startup_description}}</p>
+          <div class="">
+            <a href="{% url 'fund:funding_round_details_view' funding_round.id %}" class="btn btn-outline-info ">More details</a>
+
           </div>
         </div>
+
+        <div class="card-footer text-body-secondary d-flex justify-content-between ">
+          <div>
+            <i class="bi bi-percent text-primary"></i><i>{{funding_round.fund_percentage}}</i>
+          </div>
+          <div>
+            <i class="bi bi-cash text-success"></i> <i>{{funding_round.fund_amount}}</i>
+          </div>
+          <div>
+            <i class="bi bi-archive text-warning"></i> <i>{{funding_round.fund_stage}}</i>
+
+          </div>
+          
+        </div>
+      </div>
+    
+    </div>
+
+
 
 
     {% endfor %}
   </div>
-</div>
 </div>
 {% endblock %}

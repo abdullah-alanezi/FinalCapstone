@@ -45,6 +45,7 @@ class FundingRound(models.Model):
     fund_amount = models.IntegerField()
     fund_status = models.CharField(max_length=1024,choices=statuss.choices,default="Open")
     fund_stage = models.CharField(max_length=1024,choices=stages.choices)
+    create_at = models.DateField(auto_now_add=True)
 
     def __str__(self) -> str:
         return f'Round for {self.startup.startup_name} in {self.fund_stage} stage'
