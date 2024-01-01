@@ -3,9 +3,8 @@
 
 
 {% block body %}
-<div class="container ms-0">
 
-
+<div class="container primary-color-1 p-3 border rounded mt-5">
     <form class="row" action="{% url 'startup:edit_startup_view' startup.id %}" method="POST" enctype="multipart/form-data">
             {% if massage %}
             <div class="alert alert-danger" role="alert">
@@ -51,7 +50,7 @@
             </div>
 
             <div class="col-md-4">
-                <label class="from-label">Startup Avatar:</label>
+                <label class="from-label">Startup Avatar: Current:<a href="{{startup.startup_avatar.url}}">{{startup.startup_avatar.url}}</a></label>
                 <input type="file" name="startup_avatar" class="form-control">
             </div>
 

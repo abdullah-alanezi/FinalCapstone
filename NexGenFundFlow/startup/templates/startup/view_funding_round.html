@@ -5,60 +5,28 @@
 {% endblock %}
 
 {% block body %}
-<style>
-  .table-container {
-    width: 100%;
-    max-width: 800px; 
-    margin: 40px auto;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1); 
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 20px; 
-  }
-  table {
-    width: 100%;
-    border-collapse: collapse; 
-    width: 100%;
-    border-collapse: separate; 
-    border-spacing: 20 10px;
-  }
-  
-  th, td {
-    border-radius: 17px; 
-    text-align: center;
-    padding: 12px 15px; 
-  }
-  th {
-    background-color: #007bff; 
-    color: white;
-  }
-  tr:nth-child(even) {
-    background-color: #f8f8f8;
-  }
-  tr:hover {
-    background-color: #d0e0fc; 
-  }
-</style>
 
-<div class="table-container">
-  <table>
-    <thead>
-      <tr>
-        <th>Percentage</th>
-        <th>Status</th>
-        <th>Stage</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for n in fund %}
-      <tr>
-        <td>{{ n.fund_percentage }}%</td>
-        <td>{{ n.fund_status }}</td>
-        <td>{{ n.fund_stage }}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h1>Funding Rounds</h1>
+            {% for n in fund %}
+            <div class="card text-center mt-5">
+                <div class="card-header">
+                  Funding Round {{n.id}}
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title">Funding stage: {{n.fund_stage}} </h5>
+                  <p class="card-text">Amount: {{n.fund_amount}} SAR, Percentage: {{n.fund_percentage}}%</p>
+                  <a href="#" class="btn btn-primary">View Invesment requests</a>
+                </div>
+                <div class="card-footer text-body-secondary">
+                  {{n.create_at}}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
 </div>
 
 {% endblock %}
