@@ -10,11 +10,20 @@
 <div class="container">
     <div class="row">
         <div class="col-12">
+            <h1>Funding Rounds</h1>
             {% for n in fund %}
-            <div class="d-flex">
-                <h1>{{n.fund_percentage}}</h1>
-                <h1>{{n.fund_status}}</h1>
-                <h1>{{n.fund_stage}}</h1>
+            <div class="card text-center mt-5">
+                <div class="card-header">
+                  Funding Round {{n.id}}
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title">Funding stage: {{n.fund_stage}} </h5>
+                  <p class="card-text">Amount: {{n.fund_amount}} SAR, Percentage: {{n.fund_percentage}}%</p>
+                  <a href="#" class="btn btn-primary">View Invesment requests</a>
+                </div>
+                <div class="card-footer text-body-secondary">
+                  {{n.create_at}}
+                </div>
             </div>
             {% endfor %}
         </div>
