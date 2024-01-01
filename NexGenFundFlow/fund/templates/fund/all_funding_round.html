@@ -5,26 +5,36 @@
 {% endblock %}
 
 {% block body %}
-<div class="container">
-    <div class="card m-3" >
-      <div class="row g-0 ">
-    {% for funding_round in funding_rounds %}
 
-        <div class="col-md-4 ">
-          <img src="{{funding_round.startup.startup_avatar.url}}" class="img-fluid rounded-start" alt="startup avatar">
+
+<div class="container">
+    
+      <div class="row  ">
+    {% for funding_round in funding_rounds %}
+    <div class="col-4">
+      <div class="card" style="width: 19rem; height: auto;">
+        <img src="{{funding_round.startup.startup_avatar.url}}" class="img-fluid rounded-start " alt="startup avatar">
+        <div class="card-body">
+          <h5 class="card-title">{{funding_round.startup.startup_name}}</h5>
+          <p class="card-text">{{funding_round.startup.startup_description}}</p>
+          <div class="row align-items-end">
+
+            <p class="card-text"><small class="text-body-secondary">Contribution percentage</small></p>
+            <div class="progress" role="progressbar" aria-label="Example with label" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
+                <div class="progress-bar" style="width: 25%">25%</div>
+              </div>
         </div>
-        <div class="col-md-8">
-          <div class="card-body">
-            <h5 class="card-title">{{funding_round.startup.startup_name}}</h5>
-            <p class="card-text">{{funding_round.startup.startup_description}}</p>
-            <p class="card-text"><small class="text-body-secondary">{{funding_round.fund_status}}</small></p>
-            <a href="{% url 'fund:funding_round_details_view' funding_round.id %}" class="btn btn-primary">More details</a>
-          </div>
+          <p class="card-text"><small class="text-body-secondary">{{funding_round.fund_status}}</small></p>
+  
+          <a href="{% url 'fund:funding_round_details_view' funding_round.id %}" class="btn btn-primary">More details</a>
         </div>
+      </div>
+    </div>
+
+
 
 
     {% endfor %}
   </div>
-</div>
 </div>
 {% endblock %}
