@@ -8,91 +8,162 @@
 
 <section class="vh-100">
 {% if user in investors %}
-<div class="container h-100">
-    
-    <div class="row  h-100 justify-content-center align-items-center">
-        <div class="col-md-8">
-            {% if request.user.id == user.id %}
-            {% if massage %}
-            <div class="alert alert-danger" role="alert">
-                {{ massage }}
-            </div>
-            {% endif %}
-            {% endif %}
-            <div class="card">
-                <div class="card-header">
-                    <h2 class="text-center">{{ user.first_name }} {{ user.last_name }}</h2>
-                </div>
-                <div class="card-body">
-                    <!-- Profile Image -->
-                    <img src="{{ user.investorprofile.inverstor_avatar.url }}" class="img-fluid rounded-circle mx-auto d-block" alt="Profile Image" style="max-width: 150px;">
+<div class="container mt-5">
 
-                    <!-- Profile Details -->
-                    <div class="mt-4">
-                        <p><strong>Specialization:</strong> {{ user.investorprofile.specialization }}</p>
-                        <p><strong>Birth Day:</strong> {{ user.investorprofile.inverstor_birth_day }}</p>
-                        <p><strong>City:</strong> {{ user.investorprofile.inverstor_city }}</p>
-                        <p><strong>Phone Number:</strong> {{ user.investorprofile.inverstor_phone_number }}</p>
-                        <p><strong>LinkedIn: </strong><a href="{{ user.investorprofile.inverstor_LinkedIn }}" target="_blank"><i class="bi bi-linkedin"></i></a></p>
-                        <p><strong>X-Link:</strong> <a href="{{ user.investorprofile.inverstor_x_link }}" target="_blank"><i class="bi bi-twitter-x"></i></a></p>
-                    </div>
-
-                    <!-- Biography -->
-                    <div class="mt-4">
-                        <h5>Bio</h5>
-                        <p>{{ user.investorprofile.inverstor_bio }}</p>
-                    </div>
-                </div>
-            </div>
-            {% if request.user.id == user.id %}
-            <a class="btn btn-primary" href="{% url 'user:update_profile_view' %}">Update Profile</a>
-            {% endif %}
+    <div class="row justify-content-center">
+        {% if request.user.id == user.id %}
+        {% if massage %}
+        <div class="alert alert-danger" role="alert">
+            {{ massage }}
         </div>
+        {% endif %}
+        {% endif %}
+        <div class="col-xl-12 mb-4">
+            <div class="card shadow-lg ">
+                <div class="card-body pb-0">
+                    <div class="row align-items-center">
+                        <div class="col-md-3">
+                            <div class="text-center border-end">
+                                <img src="{{ user.investorprofile.inverstor_avatar.url }}" class="img-fluid avatar-xxl rounded" alt="">
+                                <h4 class="text-primary font-size-20 mt-3 mb-2">{{ user.first_name }} {{ user.last_name }}</h4>
+                                <h5 class="text-muted font-size-13 mb-0">{{ user.investorprofile.specialization }}</h5>
+                            </div>
+                        </div><!-- end col -->
+                        <div class="col-md-9">
+                            <div class="ms-3">
+                                <div>
+                                    <h4 class="card-title mb-2">Biography</h4>
+                                    <p class="mb-0 text-muted">{{ user.investorprofile.inverstor_bio }}</p>
+                                    <p><strong>Birth Day:</strong> {{ user.investorprofile.inverstor_birth_day }}</p>
+                                    <p><strong>City:</strong> {{ user.investorprofile.inverstor_city }}</p>
+ 
+                                </div>
+                                <div class="row my-4">
+                                    <div class="col-md-12">
+                                        <div>
+                                            <div class="mb-2">
+                                                <i class="bi bi-envelope me-2"></i>
+                                                <a href="mailto:{{user.email}}" class="text-muted">{{user.email}}</a>
+                                              </div>
+                                              
+                                              <div>
+                                                <i class="bi bi-phone me-2"></i>
+                                                <a href="tel:{{ user.investorprofile.inverstor_phone_number }}" class="text-muted">{{ user.investorprofile.inverstor_phone_number }}</a>
+                                              </div>
+                                        </div>
+                                    </div><!-- end col -->
+                                </div><!-- end row -->
+                             
+                                <ul class="nav nav-tabs nav-tabs-custom border-bottom-0 mt-3 nav-justfied" role="tablist">
+                                    <li class="nav-item" role="presentation">
+
+                                        <a class="nav-link px-4" href="{{ user.investorprofile.inverstor_LinkedIn }}" target="__blank">
+                                            <i class="bi bi-linkedin"></i> LinkedIn
+                                        </a>
+                                    </li><!-- end li -->
+                                    <li class="nav-item" role="presentation">
+                                        <a class="nav-link px-4 "  href="{{ user.investorprofile.inverstor_x_link }}" target="__blank">
+                                            <i class="bi bi-twitter-x"></i>
+                                        </a>
+                                    </li><!-- end li -->
+                                    <li class="nav-item" role="presentation">
+                                        {% if request.user.id == user.id %}
+                                        <a class="btn btn-primary" href="{% url 'user:update_profile_view' %}">Update Profile</a>
+                                        {% endif %}
+                                    </li><!-- end li -->
+
+                                </ul><!-- end ul -->
+                            </div>
+                        </div><!-- end col -->
+                    </div><!-- end row -->
+                </div><!-- end card body -->
+            </div><!-- end card -->
+           </div>
+
+
+        
+
     </div>
+    
 </div>
 {% endif %}
 
 {% if user in startups_managers %}
 <div class="container mt-5">
     <div class="row justify-content-center">
-        <div class="col-md-8">
-
-            {% if request.user.id == user.id %}
-            {% if massage %}
-            <div class="alert alert-danger" role="alert">
-                {{ massage }}
-            </div>
-            {% endif %}
-            {% endif %}
-            <div class="card">
-                <div class="card-header">
-                    <h2 class="text-center">{{ user.first_name }} {{ user.last_name }}</h2>
-                </div>
-                <div class="card-body">
-                    
-                    <img src="{{ user.startupmanagerprofile.manager_avatar.url }}" class="img-fluid rounded-circle mx-auto d-block" alt="Profile Image" style="max-width: 150px;">
-
-                    <!-- Profile Details -->
-                    <div class="mt-4">
-                        <p><strong>Position:</strong> {{ user.startupmanagerprofile.position }}</p>
-                        <p><strong>Birth Day:</strong> {{ user.startupmanagerprofile.manager_birth_day }}</p>
-                        <p><strong>City:</strong> {{ user.startupmanagerprofile.manager_city }}</p>
-                        <p><strong>Phone Number:</strong> {{ user.startupmanagerprofile.manager_phone_number }}</p>
-                        <p><strong>LinkedIn: </strong> <a href="{{ user.startupmanagerprofile.manager_LinkedIn }}" target="_blank"><i class="bi bi-linkedin"></i></a></p>
-                        <p><strong>X-Link: </strong> <a href="{{ user.startupmanagerprofile.manager_x_link }}" target="_blank"><i class="bi bi-twitter-x"></i></a></p>
-                    </div>
-
-                    
-                    <div class="mt-4">
-                        <h5>Bio</h5>
-                        <p>{{ user.startupmanagerprofile.manager_bio }}</p>
-                    </div>
-                </div>
-            </div>
-            {% if request.user.id == user.id %}
-            <a class="btn btn-primary" href="{% url 'user:update_profile_view' %}">Update Profile</a>
-            {% endif %}
+        {% if request.user.id == user.id %}
+        {% if massage %}
+        <div class="alert alert-danger" role="alert">
+            {{ massage }}
         </div>
+        {% endif %}
+        {% endif %}
+        <div class="col-xl-12 mb-4">
+            <div class="card shadow-lg ">
+                <div class="card-body pb-0">
+                    <div class="row align-items-center">
+                        <div class="col-md-3">
+                            <div class="text-center border-end">
+                                <img src="{{ user.startupmanagerprofile.manager_avatar.url }}" class="img-fluid avatar-xxl rounded" alt="">
+                                <h4 class="text-primary font-size-20 mt-3 mb-2">{{ user.first_name }} {{ user.last_name }}</h4>
+                                <h5 class="text-muted font-size-13 mb-0">{{ user.startupmanagerprofile.position }}</h5>
+                            </div>
+                        </div><!-- end col -->
+                        <div class="col-md-9">
+                            <div class="ms-3">
+                                <div>
+                                    <h4 class="card-title mb-2">Biography</h4>
+                                    <p class="mb-0 text-muted">{{ user.startupmanagerprofile.manager_bio }}</p>
+                                    <p><strong>Birth Day:</strong> {{ user.startupmanagerprofile.manager_birth_day }}</p>
+                                    <p><strong>City:</strong> {{ user.startupmanagerprofile.manager_city }}</p>
+ 
+                                </div>
+                                <div class="row my-4">
+                                    <div class="col-md-12">
+                                        <div>
+                                            <div class="mb-2">
+                                                <i class="bi bi-envelope me-2"></i>
+                                                <a href="mailto:{{user.email}}" class="text-muted">{{user.email}}</a>
+                                              </div>
+                                              
+                                              <div>
+                                                <i class="bi bi-phone me-2"></i>
+                                                <a href="tel:{{user.startupmanagerprofile.manager_phone_number}}" class="text-muted">{{user.startupmanagerprofile.manager_phone_number}}</a>
+                                              </div>
+                                        </div>
+                                    </div><!-- end col -->
+                                </div><!-- end row -->
+                             
+                                <ul class="nav nav-tabs nav-tabs-custom border-bottom-0 mt-3 nav-justfied" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <a class="nav-link px-4 "  href="{{ user.startupmanagerprofile.manager_LinkedIn }}" target="__blank">
+                                            <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
+                                            <span class="d-none d-sm-block"><i class="bi bi-linkedin"></i></span>
+                                        </a>
+                                    </li><!-- end li -->
+                                    <li class="nav-item" role="presentation">
+                                        <a class="nav-link px-4 "  href="{{ user.startupmanagerprofile.manager_x_link }}" target="__blank">
+                                            <span class="d-block d-sm-none"><i class="mdi mdi-menu-open"></i></span>
+                                            <span class="d-none d-sm-block"><i class="bi bi-twitter-x"></i></span>
+                                        </a>
+                                    </li><!-- end li -->
+                                    <li class="nav-item" role="presentation">
+                                        {% if request.user.id == user.id %}
+                                        <a class="btn btn-primary" href="{% url 'user:update_profile_view' %}">Update Profile</a>
+                                        {% endif %}
+                                    </li><!-- end li -->
+
+                                </ul><!-- end ul -->
+                            </div>
+                        </div><!-- end col -->
+                    </div><!-- end row -->
+                </div><!-- end card body -->
+            </div><!-- end card -->
+           </div>
+
+
+        <!-------------------------------------------->
+
     </div>
 </div>
 {% endif %}
