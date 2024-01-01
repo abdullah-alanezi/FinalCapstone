@@ -3,6 +3,7 @@ from django.http import HttpRequest
 from django.contrib.auth.models import User,Group
 from django.contrib.auth import authenticate , login , logout
 from . models import StartupManagerProfile, InvestorProfile
+
 # Create your views here.
 
 
@@ -35,7 +36,16 @@ def logup_view(request:HttpRequest):
             return redirect('user:profile_view',request.user.id)
        
         except Exception as e:
+
             msg = e
+
+            if 'UNIQUE constraint failed: auth_user.username' in str(e):
+                
+                msg ='Username already exists'
+            else :
+                msg = e
+
+            
     return render(request,'user/logup.html',{'massage':msg})
 
 
@@ -80,7 +90,7 @@ def profile_view(request:HttpRequest,user_id):
 
         if request.user in investors:
             try:
-                s=request.user.investorprofile
+                profile = request.user.investorprofile
             except Exception:
                 msg = 'Please update your profile'
 
@@ -100,7 +110,7 @@ def update_profile_view(request:HttpRequest):
 
     investors = User.objects.filter(groups__name = 'Investors')
 
-    invested_campanies = InvestorProfile.invested_campanies.choices
+    
 
     user = User.objects.get(id=request.user.id)
 
@@ -117,7 +127,8 @@ def update_profile_view(request:HttpRequest):
                 user.save()
 
                 try:
-                    manager_profile=request.user.startupmanagerprofile
+                    manager_profile=user.startupmanagerprofile
+
                 except Exception as e:
                         
                     manager_profile = StartupManagerProfile(user=user)
@@ -150,7 +161,7 @@ def update_profile_view(request:HttpRequest):
                 user.save()
 
                 try:
-                    investor_profile=request.user.investorprofile
+                    investor_profile = user.investorprofile
                 except Exception as e:
                         
                     investor_profile = InvestorProfile(user=user)
@@ -169,10 +180,11 @@ def update_profile_view(request:HttpRequest):
                         investor_profile.inverstor_avatar = request.FILES['inverstor_avatar']
 
                 investor_profile.save()
+
                 return redirect('user:profile_view',request.user.id)
     
     context = {
-        'invested_campanies':invested_campanies,
+        
         'investors':investors,
         'startups_managers':startups_managers,
         'user':user
