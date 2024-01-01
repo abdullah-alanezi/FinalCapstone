@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 
 class InvestorProfile(models.Model):
     invested_campanies =models.TextChoices('invested_campany',['0','1','2','3','4','5','6','7','8','9','10'])
-    user = models.OneToOneField(User,on_delete = models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='user_investor_profile')
     inverstor_phone_number = models.CharField(max_length=10)
     specialization = models.CharField(max_length=255)
     inverstor_avatar = models.ImageField(upload_to='images/',default='images/default.jpg')

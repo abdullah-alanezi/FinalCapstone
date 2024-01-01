@@ -1,29 +1,53 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deal Form</title>
-</head>
-<body>
-    <form action="{% url 'contract:create_deal_pdf' %}" method="post">
-        {% csrf_token %}
-        <label for="investor_name">Investor Name:</label>
-        <input type="text" id="investor_name" name="investor_name"><br><br>
+{% extends 'home/base.html' %}
+{% load static %}
+{% block title %}
+<title>contract</title>
+{% endblock %} 
 
-        <label for="company_name">Company Name:</label>
-        <input type="text" id="company_name" name="company_name"><br><br>
-        <label for="investment_percentage">Investment Percentage:</label>
-        <input type="text" id="investment_percentage" name="investment_percentage"><br><br>
-        <label for="investment_amount">investment amount:</label>
-        <input type="text" id="investment_amount" name="investment_amount"><br><br>
+{% block body %}
 
-        <label for="agreement_date">Date of Agreement:</label>
-        <input type="date" id="agreement_date" name="agreement_date"><br><br>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card shadow">
+                <div class="card-header">
+                    <h2 class="text-center">Deal Form</h2>
+                </div>
+                <div class="card-body">
+                    <form action="{% url 'contract:create_deal_pdf' %}" method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="investor_name" class="form-label">Investor Name:</label>
+                            <input type="text" id="investor_name" name="investor_name" value="{{ investor_name }}" class="form-control" {% if investor_name %}readonly{% endif %}>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="company_name" class="form-label">Company Name:</label>
+                            <input type="text" id="company_name" name="company_name" value="{{ company_name }}" class="form-control">
+                        </div>
 
-        <!-- أضف حقولًا إضافية حسب الحاجة -->
+                        <div class="mb-3">
+                            <label for="investment_percentage" class="form-label">Investment Percentage:</label>
+                            <input type="number" id="investment_percentage" name="investment_percentage" value="{{ investment_percentage }}" class="form-control">
+                        </div>
 
-        <input type="submit" value="Create PDF">
-    </form>
-</body>
-</html>
+                        <div class="mb-3">
+                            <label for="investment_amount" class="form-label">Investment Amount:</label>
+                            <input type="number" id="investment_amount" name="investment_amount" value="{{ investment_amount }}" class="form-control">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="agreement_date" class="form-label">Date of Agreement:</label>
+                            <input type="date" id="agreement_date" name="agreement_date" class="form-control">
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">Create PDF</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
