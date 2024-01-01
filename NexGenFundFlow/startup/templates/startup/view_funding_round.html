@@ -1,9 +1,8 @@
 {% extends 'home/base.html' %}
 
 {% block title %} 
-<title>all my funding</title>
+<title>View</title> 
 {% endblock %}
-
 
 {% block body %}
 
@@ -19,8 +18,7 @@
                 <div class="card-body">
                   <h5 class="card-title">Funding stage: {{n.fund_stage}} </h5>
                   <p class="card-text">Amount: {{n.fund_amount}} SAR, Percentage: {{n.fund_percentage}}%</p>
-                  <p>{{n.fund_status}}</p>
-                  <a href="{% url 'startup:funding_request_view' n.id %}" class="btn btn-primary">View Invesment requests</a>
+                  <a href="#" class="btn btn-primary">View Invesment requests</a>
                 </div>
                 <div class="card-footer text-body-secondary">
                   {{n.create_at}}
