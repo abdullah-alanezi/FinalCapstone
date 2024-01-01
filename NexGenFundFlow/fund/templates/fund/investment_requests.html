@@ -33,6 +33,8 @@
                       </div></th>
                     <th scope="col">Negotiation</th>
                     <th scope="col">Cancel offer</th>
+                    <th scope="col">Print Contract</th>
+
                   </tr>
                 </thead>
                 <tbody class="table-group-divider"></tbody>
@@ -46,7 +48,13 @@
                     <td>{{investment_request.status}}</td>
                     <td><a href="{% url 'fund:negotiate_view' investment_request.id  %}" class="btn btn-warning">Negotiate</a></td>
                     <td><a href="{% url 'fund:cancel_investment_offer_view' investment_request.id  %}" class="btn btn-danger">Cancel</a></td>
-
+                    <td>
+                      {% if investment_request.status == 'Approved' %}
+                          <a href="{% url 'contract:create_deal_pdf' investment_request.id %}" class="btn btn-info">Print Contract</a>
+                      {% else %}
+                      Waiting for approval
+                      {% endif %}
+                  </td>
 
                   </tr>
                   {% endfor %}
