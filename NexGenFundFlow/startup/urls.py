@@ -18,7 +18,7 @@ urlpatterns = [
     path('<request_id>/disapproved/request',views.disapproved_reqeust_view,name='disapproved_reqeust_view'),
     path('<startup_id>/funding/create/', views.all_funding_round_view, name='funding_round_view'),
     path('view/funding/round/request/<funding_id>/',views.funding_request_view,name='funding_request_view'),
-    path('edit/member/<member_id>/',views.edit_member_profile_view,name='edit_member_profile_view'),
-    path('delete/member/<member_id>/',views.delete_member_view,name='delete_member_view')
-
+    path('edit/members/<member_id>/',views.edit_member_profile_view,name='edit_member_profile_view'),
+    path('delete/member/<member_id>/',views.delete_member_view,name='delete_member_view'),
+    path('edit/member/<member_id>/',views.edit_member,name='edit_member')
 ]
