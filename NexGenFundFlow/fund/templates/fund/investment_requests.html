@@ -41,7 +41,7 @@
                 <tr>
                     <th scope="row">{{forloop.counter}}</th>
                     <td>{{investment_request.funding_round.startup.startup_name}}</td>
-                    <td>{{investment_request.amount}} r.s</td>
+                    <td>{{investment_request.amount}} SAR</td>
                     <td>{{investment_request.percentage}}%</td>
                     <td>{{investment_request.status}}</td>
                     <td><a href="{% url 'fund:negotiate_view' investment_request.id  %}" class="btn btn-warning">Negotiate</a></td>

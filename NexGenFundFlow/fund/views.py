@@ -2,6 +2,7 @@ from django.shortcuts import render ,redirect
 from django.http import HttpRequest , HttpResponse
 from startup.models import FundingRound 
 from .models import InvestmentOffer , InvestmentOfferComment
+from django.contrib.auth.models import User
 
 # Create your views here.
 
@@ -11,8 +12,9 @@ def all_funding_round_view(request:HttpRequest):
     
     
     return render(request,"fund/all_funding_round.html",{"funding_rounds":funding_rounds,"funding_rounds_count":funding_rounds_count})
-
 def funding_round_details_view(request:HttpRequest,funding_round_id):
+    investors= User.objects.filter(groups__name='Investors')
+    
     funding_round = FundingRound.objects.get(id = funding_round_id)
     if request.method == "POST":
         new_investment_offer = InvestmentOffer(user=request.user ,funding_round=funding_round, percentage=request.POST["percentage"], amount=request.POST["amount"])
@@ -20,7 +22,7 @@ def funding_round_details_view(request:HttpRequest,funding_round_id):
         
         return redirect("fund:investment_requests_view")
     
-    return render(request,"fund/funding_round_details.html",{"funding_round":funding_round})
+    return render(request,"fund/funding_round_details.html",{"funding_round":funding_round,'investors':investors})
 
 def investment_requests_view(request:HttpRequest):
     investment_requests = InvestmentOffer.objects.filter(user=request.user)
