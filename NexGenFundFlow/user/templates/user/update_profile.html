@@ -8,13 +8,14 @@
 
 {% block body %}
 
-<section class="vh-100">   
+<section class="container primary-color-1 border rounded mt-5 shadow-lg">   
 <div class="container h-100">
-    <div class="row h-100 justify-content-center align-items-center">
+    <div class="row h-100 justify-content-center align-items-center ">
+        <h1 class="text-center" >Update Profile</h1>
         {% if request.user in startups_managers %}
-        <div class="col-6">
+        <div class="col-6  ">
             
-            <form class="form-control"  action="{% url 'user:update_profile_view'%}"  method="POST" enctype="multipart/form-data">
+            <form class="form-control mb-3"  action="{% url 'user:update_profile_view'%}"  method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
                 
                 <!-- Manager Profile Information -->
@@ -114,7 +115,7 @@
 
         <div class="col-6">
             
-            <form class="form-control" action="{% url 'user:update_profile_view'%}"  method="POST" enctype="multipart/form-data">
+            <form class="form-control mb-3" action="{% url 'user:update_profile_view'%}"  method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
                 
                 <!-- Investor Information  -->
@@ -149,11 +150,18 @@
                         </div>
                        
                     </div>
+
+                    <div class="col-6">
+                        <label for="specialization">Specialization:</label>
+                        <input type="text" id="specialization" value="{{user.investorprofile.specialization}}" name="specialization" class="form-control" required>
+                    </div>
             
                     <div class="col-6">
                         <label for="manager_avatar">Avatar: <a href="{{user.investorprofile.inverstor_avatar.url}}">current avatar</a></label>
                         <input type="file" id="inverstor_avatar" name="inverstor_avatar" class="form-control-file">
                     </div>
+
+
 
                 </div>
 
@@ -184,18 +192,15 @@
         
                 <div class="row mb-3">
 
-                    <div class="col-6">
+                    <div class="col-12">
                         <label for="manager_bio">Bio:</label>
                         <textarea id="manager_bio" name="inverstor_bio" class="form-control" rows="4" required>{{user.investorprofile.inverstor_bio}}</textarea>
                     </div>
 
-                    <div class="col-6">
-                        <label for="specialization">Specialization:</label>
-                        <input type="text" id="specialization" value="{{user.investorprofile.specialization}}" name="specialization" class="form-control" required>
-                    </div>
+
                     
-                    <div class="col-6">
-                        <div class="mb-3 text-center">
+                    <div class="row">
+                        <div class="mt-3 text-center">
                             <button type="submit" class="btn btn-primary">Update</button>
                         </div>
                         
