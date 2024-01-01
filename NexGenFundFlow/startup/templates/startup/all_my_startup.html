@@ -5,17 +5,25 @@
 
 {% block body %}
 
-<div class="container">
+<div class="container mt-5">
     <div class="row">
+        <h1>All Startup:</h1>
+    </div>
+    <div class="row justify-content-center">
         {% if massage %}
         <div class="alert alert-danger" role="alert">
             {{massage}}
         </div>
         {% endif %}
         {% for n in startup %}
-        <div class="col-12 d-flex justify-content-between">
-            <img src="{{n.startup_avatar.url}}" class="img">
-            <a href="{% url 'startup:view_startup_profile_view' n.id %}" class="text-decoration-non black"><h1> {{n.startup_name}}</h1></a>
+        <div class="card m-2" style="width: 18rem; background-color: ffffff;">
+            <h5 class="card-title">StartUp: <a href="{% url 'startup:view_startup_profile_view' n.id %}" class="text-decoration-none black">{{n.startup_name}}</a></h5>
+            <img src="{{n.startup_avatar.url}}" class="card-img-top" alt="...">
+            <div class="card-body">
+            <p class="card-text"><b>Brief Describe:</b> {{n.startup_description}}</p>
+            <p class="card-text"><b>Founder:</b> {{n.startup_founder_name}}</p>
+            <p class="card-text"><b>Sector:</b>{{n.startup_sector}}</p>
+            </div>
         </div>
         {% endfor %}
     </div>
