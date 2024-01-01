@@ -8,19 +8,19 @@
 
 {% block body %}
 
-<section>   
-<div class="container">
-    <div class="row">
+<section class="vh-100">   
+<div class="container h-100">
+    <div class="row h-100 justify-content-center align-items-center">
         {% if request.user in startups_managers %}
         <div class="col-6">
             
-            <form  action="{% url 'user:update_profile_view'%}"  method="POST" enctype="multipart/form-data">
+            <form class="form-control"  action="{% url 'user:update_profile_view'%}"  method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
                 
                 <!-- Manager Profile Information -->
                 
 
-                <div class="row">
+                <div class="row mb-3">
 
                     <div class="col-6">
                         <label for="first_name">First Name:</label>
@@ -34,7 +34,7 @@
 
                 </div>
 
-                <div class="row">
+                <div class="row mb-3">
 
                     <div class="col-6">
                         <label for="email">Email</label>
@@ -53,7 +53,7 @@
 
                 </div>
 
-                <div class="row">
+                <div class="row mb-3">
 
                     <div class="col-6">
                         <label for="position">Position:</label>
@@ -67,7 +67,7 @@
 
                 </div>
 
-                <div class="row">
+                <div class="row mb-3">
                     <div class="col-6">
                         <label for="manager_birth_day">Birth Day:</label>
                         <input type="date" id="manager_birth_day" value="{{ user.startupmanagerprofile.manager_birth_day|date:'Y-m-d' }}"  name="manager_birth_day" class="form-control" required>
@@ -80,7 +80,7 @@
 
                 </div>
 
-                <div class="row" >
+                <div class="row mb-3" >
 
                     <div class="col-6">
                         <label for="manager_x_link">X Link:</label>
@@ -94,34 +94,32 @@
 
                 </div>
                 
-                <div class="row">
+                <div class="row mb-3">
                     <div class="form-group">
                         <label for="manager_bio">Bio:</label>
                         <textarea id="manager_bio" name="manager_bio" class="form-control" rows="4" required>{{user.startupmanagerprofile.manager_bio   }}</textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary">Update</button>
+                    
                 </div>         
-                
+                <div class="mb-3 text-center">
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </div>
             </form>
         </div>
         {% endif %}
 
         {% if request.user in investors %}
 
-        {% for key, value in invested_campanies %}
-
-        {{key}}
-        {% endfor %}
 
 
         <div class="col-6">
             
-            <form  action="{% url 'user:update_profile_view'%}"  method="POST" enctype="multipart/form-data">
+            <form class="form-control" action="{% url 'user:update_profile_view'%}"  method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
                 
                 <!-- Investor Information  -->
                 
-                <div class="row">
+                <div class="row mb-3">
                     <div class="col-6">
                         <label for="first_name">First Name:</label>
                         <input type="text" id="first_name" value="{{user.first_name}}" name="first_name" class="form-control" required>
@@ -136,7 +134,7 @@
         
                 <!-- Investor Profile Information -->
 
-                <div class="row">
+                <div class="row mb-3">
                     <div class="col-6">
                         <label for="email">Email</label>
                         <input type="email" id="email" value="{{user.email}}" name="email" class="form-control" required>
@@ -159,7 +157,7 @@
 
                 </div>
 
-                <div class="row" >
+                <div class="row mb-3" >
                     <div class="col-6">
                         <label for="inverstor_x_link">X Link:</label>
                         <input type="url" id="inverstor_x_link" value="{{user.investorprofile.inverstor_x_link}}" name="inverstor_x_link" class="form-control" required>
@@ -171,7 +169,7 @@
                     </div>
                 </div>
 
-                <div class="row">
+                <div class="row mb-3">
                     <div class="col-6">
                         <label for="manager_birth_day">Birth Day:</label>
                         <input type="date" id="inverstor_birth_day" value="{{ user.investorprofile.inverstor_birth_day|date:'Y-m-d' }}"  name="inverstor_birth_day" class="form-control" required>
@@ -184,7 +182,7 @@
 
                 </div>
         
-                <div class="row">
+                <div class="row mb-3">
 
                     <div class="col-6">
                         <label for="manager_bio">Bio:</label>
@@ -197,19 +195,15 @@
                     </div>
                     
                     <div class="col-6">
-                        <div class="row" >
-
-                            <button  type="submit" class="btn btn-primary mt-3">Update</button>
+                        <div class="mb-3 text-center">
+                            <button type="submit" class="btn btn-primary">Update</button>
                         </div>
                         
                     </div>
 
                 </div>
         
-        
-
-        
-                <!-- Submit Button -->
+ 
                 
             </form>
         </div>
