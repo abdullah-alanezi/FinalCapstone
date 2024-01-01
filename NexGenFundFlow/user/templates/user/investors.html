@@ -1,40 +1,127 @@
-{% extends 'home/base.html'%}
+{% extends 'home/base.html' %}
 
 {% load static %}
 
 {% block title %}<title>Investors</title>{% endblock %}
 
-
 {% block body %}
 
 <section>
-
-    <div class="container">
-        <div class="row">
-          
+    <div class="container mt-5">
+        <div class="row d-flex justify-content-center">
             {% for investor in investors %}
+            <div class="col-xl-8 mb-4">
+                <div class="card">
+                    <div class="card-body pb-0">
+                        <div class="row align-items-center">
+                            <div class="col-md-3">
+                                <div class="text-center border-end">
+                                    <img src="{{ investor.investorprofile.inverstor_avatar.url }}" class="img-fluid avatar-xxl rounded-circle" alt="">
+                                    <h4 class="text-primary font-size-20 mt-3 mb-2">{{ investor.first_name }} {{ investor.last_name }}</h4>
+                                    <h5 class="text-muted font-size-13 mb-0">{{ investor.investorprofile.specialization }}</h5>
+                                </div>
+                            </div><!-- end col -->
+                            <div class="col-md-9">
+                                <div class="ms-3">
+                                    <div>
+                                        <h4 class="card-title mb-2">Biography</h4>
+                                        <p class="mb-0 text-muted">{{ investor.investorprofile.inverstor_bio }}</p>
+                                    </div>
+                                    <div class="row my-4">
+                                        <div class="col-md-12">
+                                            <div>
+                                                <p class="text-muted mb-2 fw-medium"><i class="mdi mdi-email-outline me-2"></i>{{investor.email}}
+                                                </p>
+                                                <p class="text-muted fw-medium mb-0"><i class="mdi mdi-phone-in-talk-outline me-2"></i>{{investor.investorprofile.inverstor_phone_number}}
+                                                </p>
+                                            </div>
+                                        </div><!-- end col -->
+                                    </div><!-- end row -->
+                                 
+                                    <ul class="nav nav-tabs nav-tabs-custom border-bottom-0 mt-3 nav-justfied" role="tablist">
+                                        <li class="nav-item" role="presentation">
+                                            <a class="nav-link px-4 "  href="{{ investor.investorprofile.inverstor_LinkedIn }}" target="__blank">
+                                                <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
+                                                <span class="d-none d-sm-block"><i class="bi bi-linkedin"></i></span>
+                                            </a>
+                                        </li><!-- end li -->
+                                        <li class="nav-item" role="presentation">
+                                            <a class="nav-link px-4 "  href="{{ investor.investorprofile.inverstor_x_link }}" target="__blank">
+                                                <span class="d-block d-sm-none"><i class="mdi mdi-menu-open"></i></span>
+                                                <span class="d-none d-sm-block"><i class="bi bi-twitter-x"></i></span>
+                                            </a>
+                                        </li><!-- end li -->
+                                        <li class="nav-item" role="presentation">
+                                            <a class="btn btn-primary" href="{% url 'user:profile_view' investor.id %}">profile</a>
+                                        </li><!-- end li -->
 
-
-
-          <div class="col-md-4 mb-4">
-            <div class="card h-100">
-                <img  style=" object-fit: contain;" src="{{investor.investorprofile.inverstor_avatar.url}}" class="card-img-top" alt="{{ course.title }}">
-                <div class="card-body">
-                    <h4 class="card-title text-center">{{investor.first_name}} {{investor.last_name}}</h4>
-                    <hr>
-                    <p class="card-text">{{investor.investorprofile.inverstor_bio}}</p>
-                </div>
-                <div style="font-size:smaller" class="card-footer d-flex justify-content-between ">
-                  <a  href="{% url 'user:profile_view' investor.id %}" class="btn btn-sm btn-primary w-100">View Profile</a>
-                </div>
-                <div class="text-center">
-                    
-                </div>
-            </div>
-        </div>
+                                    </ul><!-- end ul -->
+                                </div>
+                            </div><!-- end col -->
+                        </div><!-- end row -->
+                    </div><!-- end card body -->
+                </div><!-- end card -->
+               </div>
             {% endfor %}
+
+            
         </div>
     </div>
 </section>
 
+
+<div class="col-xl-8">
+    <div class="card">
+        <div class="card-body pb-0">
+            <div class="row align-items-center">
+                <div class="col-md-3">
+                    <div class="text-center border-end">
+                        <img src="{{ investor.investorprofile.inverstor_avatar.url }}" class="img-fluid avatar-xxl rounded-circle" alt="">
+                        <h4 class="text-primary font-size-20 mt-3 mb-2">{{ investor.first_name }} {{ investor.last_name }}</h4>
+                        <h5 class="text-muted font-size-13 mb-0">Web Designer</h5>
+                    </div>
+                </div><!-- end col -->
+                <div class="col-md-9">
+                    <div class="ms-3">
+                        <div>
+                            <h4 class="card-title mb-2">Biography</h4>
+                            <p class="mb-0 text-muted">{{ investor.investorprofile.inverstor_bio }}</p>
+                        </div>
+                        <div class="row my-4">
+                            <div class="col-md-12">
+                                <div>
+                                    <p class="text-muted mb-2 fw-medium"><i class="mdi mdi-email-outline me-2"></i>{{investor.email}}
+                                    </p>
+                                    <p class="text-muted fw-medium mb-0"><i class="mdi mdi-phone-in-talk-outline me-2"></i>{{investor.investorprofile.inverstor_phone_number}}
+                                    </p>
+                                </div>
+                            </div><!-- end col -->
+                        </div><!-- end row -->
+                     
+                        <ul class="nav nav-tabs nav-tabs-custom border-bottom-0 mt-3 nav-justfied" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link px-4 "  href="https://bootdey.com/snippets/view/profile-projects" target="__blank">
+                                    <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
+                                    <span class="d-none d-sm-block">Projects</span>
+                                </a>
+                            </li><!-- end li -->
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link px-4 "  href="https://bootdey.com/snippets/view/profile-task-with-team-cards" target="__blank">
+                                    <span class="d-block d-sm-none"><i class="mdi mdi-menu-open"></i></span>
+                                    <span class="d-none d-sm-block">Tasks</span>
+                                </a>
+                            </li><!-- end li -->
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link px-4  active" data-bs-toggle="tab" href="#team-tab" role="tab" aria-selected="true">
+                                    <span class="d-block d-sm-none"><i class="mdi mdi-account-group-outline"></i></span>
+                                    <span class="d-none d-sm-block">Team</span>
+                                </a>
+                            </li><!-- end li -->
+                        </ul><!-- end ul -->
+                    </div>
+                </div><!-- end col -->
+            </div><!-- end row -->
+        </div><!-- end card body -->
+    </div><!-- end card -->
+   </div>
 {% endblock %}
