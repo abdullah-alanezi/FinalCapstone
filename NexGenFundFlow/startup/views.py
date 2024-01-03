@@ -150,6 +150,10 @@ def disapproved_reqeust_view(request, request_id):
     investment_request.save()
     return redirect('startup:view_funding_request', startup_id=investment_request.funding_round.startup.id)
 
+def view_all_funding_request(request:HttpRequest,user_id):
+    investment_requests = InvestmentOffer.objects.filter(user=user_id)
+
+    return render(request,'startup/all_funding_request.html', {"investment_requests": investment_requests})
 
 def funding_request_view(request:HttpRequest,funding_id):
 
@@ -166,3 +170,19 @@ def delete_member_view(request:HttpRequest,member_id):
     team = TeamMember.objects.get(id=member_id)
     team.delete()
     return redirect('startup:view_startup_profile_view',startup_id=team.startup.id)
+
+def edit_member(request:HttpRequest,member_id):
+    team = TeamMember.objects.get(id=member_id)
+    
+    if request.method == 'POST':
+        team.team_name = request.POST['team_name']
+        team.team_linkdin = request.POST['team_linkdin']
+        team.team_role = request.POST['team_role']
+    
+        if 'team_avatar' in request.FILES:
+            team.team_avatar = request.FILES['team_avatar']
+        else:
+            team.save()
+            return redirect('startup:edit_member_profile_view',member_id=member_id)
+        
+    return render(request,'startup/edit_member.html',{'team':team})

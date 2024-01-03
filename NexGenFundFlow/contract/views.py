@@ -44,9 +44,14 @@ def create_deal_pdf(request, investment_request_id):
     contract_clause = ParagraphStyle(name='ContractClause', fontSize=10, leading=12)
     contract_clause_bold = ParagraphStyle(name='ContractClauseBold', fontSize=10, leading=12, spaceAfter=6, fontName='Helvetica-Bold')
 
-    logo = "media/images/default.jpg"
-    logo_img = Image(logo, 2*inch, 1*inch)
+    
+    logo_path = "media/images/44.jpg"  
+    logo_img = Image(logo_path, 2*inch, 1*inch)
     logo_img.hAlign = 'CENTER'
+
+    stamp_path = "media/images/126.jpg"  
+    stamp_img = Image(stamp_path, 1*inch, 1*inch)
+    stamp_img.hAlign = 'RIGHT'
 
     elements = [logo_img]
     elements.append(Paragraph("Investment Agreement", contract_title))
@@ -61,7 +66,6 @@ def create_deal_pdf(request, investment_request_id):
         f"1. Investment Amount: The Investor agrees to invest an amount of <u>${investment_amount}</u> into the Company.",
         f"2. Investment Percentage: For the investment amount, the Investor will receive an equity stake of <u>{investment_percentage}%</u> in the Company.",
         f"3. Payment Due: The payment is due 30 days from the signing of this agreement, which is on <u>{payment_due_date}</u>.",
-
         "IN WITNESS WHEREOF, the Parties have executed this Agreement as of the date first above written."
     ]
 
@@ -74,10 +78,12 @@ def create_deal_pdf(request, investment_request_id):
 
     signature_data = [
         [Paragraph(f"Investor Signature: <br/><br/><br/><u>{investor_name}</u>", contract_clause),
-         Paragraph(f"Company Representative Signature: <br/><br/><br/><u>{company_name}</u>", contract_clause)]
+         Paragraph(f"Company Representative Signature: <br/><br/><br/><u>{company_name}</u>", contract_clause),
+         Spacer(1, 12),
+         stamp_img]  # Add the stamp image to the signature area
     ]
 
-    signature_table = Table(signature_data, colWidths=[3*inch, 3*inch], rowHeights=[0.75*inch])
+    signature_table = Table(signature_data, colWidths=[3*inch, 3*inch, 1*inch], rowHeights=[0.75*inch])
     signature_table.setStyle(TableStyle([
         ('LINEBEFORE', (1, 0), (1, 0), 0.5, colors.black),
         ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
@@ -87,6 +93,7 @@ def create_deal_pdf(request, investment_request_id):
     ]))
 
     elements.append(signature_table)
+
     doc.build(elements)
 
     pdf = buffer.getvalue()
