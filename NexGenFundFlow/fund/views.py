@@ -27,13 +27,13 @@ def funding_round_details_view(request:HttpRequest,funding_round_id):
 def investment_requests_view(request:HttpRequest):
     investment_requests = InvestmentOffer.objects.filter(user=request.user)
     if "filter" in request.GET and request.GET["filter"]=="Pending":
-        investment_requests = InvestmentOffer.objects.filter(status="Pending")
+        investment_requests = InvestmentOffer.objects.filter(user=request.user,status="Pending")
     if "filter" in request.GET and request.GET["filter"]=="Approved":
-        investment_requests = InvestmentOffer.objects.filter(status="Approved")
+        investment_requests = InvestmentOffer.objects.filter(user=request.user,status="Approved")
     if "filter" in request.GET and request.GET["filter"]=="Disapproved":
-        investment_requests = InvestmentOffer.objects.filter(status="Disapproved")
+        investment_requests = InvestmentOffer.objects.filter(user=request.user,status="Disapproved")
     if "filter" in request.GET and request.GET["filter"]=="Canceled":
-        investment_requests = InvestmentOffer.objects.filter(status="Canceled")
+        investment_requests = InvestmentOffer.objects.filter(user=request.user,status="Canceled")
         
 
     
