@@ -144,6 +144,11 @@ def view_funding_request(request: HttpRequest, startup_id):
     investment_requests = InvestmentOffer.objects.filter(funding_round__in=funding_rounds)
     return render(request, 'startup/accept_request.html', {"investment_requests": investment_requests})
 
+def view_funding_requests(request: HttpRequest, funding_id):
+    funding_rounds = FundingRound.objects.filter(startup=funding_id)
+    investment_requests = InvestmentOffer.objects.filter(funding_round__in=funding_rounds)
+    return render(request, 'startup/accept_request.html', {"investment_requests": investment_requests})
+
 def disapproved_reqeust_view(request, request_id):
     investment_request = get_object_or_404(InvestmentOffer, id=request_id)
     investment_request.status = 'Disapproved'
