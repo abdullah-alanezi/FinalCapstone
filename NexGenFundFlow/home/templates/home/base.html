@@ -24,7 +24,7 @@
                 <a class="nav-link active" aria-current="page" href="{% url 'home:home_view' %}">Home</a>   
               </li>
               <li><a class="nav-link active" aria-current="page" href="{% url 'fund:all_funding_round_view' %}">Funding Rounds</a></li>
-              {% if request.user in investors %}
+              {% if  perms.fund.add_investmentoffer %}
                 <li><a class="nav-link active" aria-current="page" href="{% url 'fund:investment_requests_view' %}">Investment requests</a></li>
               {% endif %}
               <li><a class="nav-link active" aria-current="page" href="{% url 'user:investors_view' %}">Investors</a></li>
@@ -38,9 +38,12 @@
                 <ul class="dropdown-menu">
                   <li><a class="dropdown-item w-50" href="{% url 'user:profile_view' request.user.id %}">Profile</a></li>
                   <li><hr class="dropdown-divider"></li>
+                  {% if  perms.startup.add_startup %}
                   <li><a class="dropdown-item" href="{% url 'startup:create_startup_view' %}">Create Startup</a></li>
                   <li><a class="dropdown-item" href="{% url 'startup:view_all_my_stratup_view' request.user.id %}">Startup</a></li>
+                  {% endif %}
                   <li><a class="dropdown-item text-danger" href="{% url 'user:logout_view' %}">Logout</a></li>
+
                 </ul>
               </lu>
               

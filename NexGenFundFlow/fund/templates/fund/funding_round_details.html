@@ -71,7 +71,7 @@
 
 
         </div>
-    {% if request.user in investors %}
+        {% if  perms.fund.add_investmentoffer %}
         {% if funding_round.fund_status == "Open" %}
         <div class="row d-flex justify-content-between mt-5">
             <div class="col-3">
