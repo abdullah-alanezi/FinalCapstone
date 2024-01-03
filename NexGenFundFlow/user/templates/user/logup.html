@@ -11,16 +11,17 @@
 
 
 
-<section  class="vh-100" >
+<section  class="container primary-color-1 border rounded mt-5 shadow-lg" >
   <div class="container h-100">
-      <div class="row h-100 justify-content-center align-items-center">
-          <div class="col-md-6 bg-white">
+      <div class="row justify-content-center align-items-center">
+        <h2 class="text-center mb-3 mt-3" >Join us</h2>
+          <div class="col-md-6">
               {% if massage %}
               <div class="alert alert-danger" role="alert">
                   {{ massage }}
               </div>
               {% endif %}
-              <form class="needs-validation"  action="{% url 'user:logup_view' %}" method="POST">
+              <form class="form-control mb-3"  action="{% url 'user:logup_view' %}" method="POST">
                   {% csrf_token %}
 
                   <div class="mb-3">

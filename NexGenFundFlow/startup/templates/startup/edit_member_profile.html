@@ -1,0 +1,44 @@
+{% extends 'home/base.html' %}
+
+{% block title %}
+<title>Edit member</title>
+{% endblock %}
+
+{% block body %}
+{% if massage %}
+<div class="alert alert-danger mt-3" role="alert" >
+    {{massage}}
+</div>
+{% endif %}
+
+<div class="container">
+
+    <form class="row" action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="d-flex justify-content-between">
+            <h1>View Member</h1>
+            <h1><a class="btn btn-info" href="{% url 'startup:edit_member' team.id %}">Edit</a></h1>
+        </div>
+        <div class="col-md-4">
+            <label class="from-label">Member name:</label>
+            <input type="text" name="team_name" class="form-control" value="{{team.team_name}}" disabled>
+        </div>
+        <div class="col-md-4">
+            <label class="from-label">Member Role:</label>
+            <input type="text" name="team_role" class="form-control" value="{{team.team_role}}" disabled>
+        </div>
+        <div class="col-md-4">
+            <label class="from-label">Member Avatar:</label>
+            <input type="file" name="team_avatar" class="form-control" disabled>
+        </div>
+        <div class="col-md-12">
+            <label class="from-label">Member Linkdin:</label>
+            <input type="text" name="team_linkdin" class="form-control" value="{{team.team_linkdin}}" disabled>
+        </div>
+
+    </form>
+
+</div>
+
+
+{% endblock %}

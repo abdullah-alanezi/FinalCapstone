@@ -65,8 +65,8 @@ def view_all_my_stratup_view(request:HttpRequest,user_id):
 
 def view_startup_profile_view(request:HttpRequest,startup_id):
     startup = StartUp.objects.get(id=startup_id)
-
-    return render(request,'startup/view_startup.html',{'startup':startup})
+    team = TeamMember.objects.filter(startup=startup)
+    return render(request,'startup/view_startup.html',{'startup':startup,'team':team})
 
 def team_view(request:HttpRequest,startup_id):
 
@@ -150,9 +150,39 @@ def disapproved_reqeust_view(request, request_id):
     investment_request.save()
     return redirect('startup:view_funding_request', startup_id=investment_request.funding_round.startup.id)
 
-
-
 def view_all_funding_request(request:HttpRequest,user_id):
     investment_requests = InvestmentOffer.objects.filter(user=user_id)
 
     return render(request,'startup/all_funding_request.html', {"investment_requests": investment_requests})
+
+def funding_request_view(request:HttpRequest,funding_id):
+
+    funding_rounds = FundingRound.objects.filter(startup=funding_id)
+    investment_requests = InvestmentOffer.objects.filter(funding_round__in=funding_rounds)
+    return render(request, 'startup/accept_request.html', {"investment_requests": investment_requests})
+
+def edit_member_profile_view(request:HttpRequest,member_id):
+    team = TeamMember.objects.get(id=member_id)
+
+    return render(request,'startup/edit_member_profile.html',{'team':team})
+
+def delete_member_view(request:HttpRequest,member_id):
+    team = TeamMember.objects.get(id=member_id)
+    team.delete()
+    return redirect('startup:view_startup_profile_view',startup_id=team.startup.id)
+
+def edit_member(request:HttpRequest,member_id):
+    team = TeamMember.objects.get(id=member_id)
+    
+    if request.method == 'POST':
+        team.team_name = request.POST['team_name']
+        team.team_linkdin = request.POST['team_linkdin']
+        team.team_role = request.POST['team_role']
+    
+        if 'team_avatar' in request.FILES:
+            team.team_avatar = request.FILES['team_avatar']
+        else:
+            team.save()
+            return redirect('startup:edit_member_profile_view',member_id=member_id)
+        
+    return render(request,'startup/edit_member.html',{'team':team})

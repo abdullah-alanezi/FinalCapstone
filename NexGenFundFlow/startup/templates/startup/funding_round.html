@@ -5,7 +5,7 @@
 
 
 {% block body %}
-<div class="container">
+<div class="container primary-color-1 border rounded p-3 mt-5">
     <form class="row" action="{% url 'startup:funding_round_view' startup_id %}" method="POST">
         {% csrf_token %}
         {% if massage %}
