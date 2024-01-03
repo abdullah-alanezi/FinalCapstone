@@ -10,6 +10,7 @@
 <div class="container">
     
       <div class="row ">
+        <h1>Funding Rounds</h1>
     {% for funding_round in funding_rounds %}
     <div class="col mb-3">
       <div class="card shadow" style="width: 19rem; height: auto;">
@@ -28,7 +29,7 @@
             <h3> {{funding_round.fund_amount}} SAR</h3>
 
             <div class="progress" role="progressbar" aria-label="Info example" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
-              <div class="progress-bar bg-info text-dark " style="width: 50%">50%</div>
+              <div class="progress-bar bg-info text-dark " style="width: 0%">0%</div>
             </div>
             <small class="text-body-secondary ">been covered</small>
         </div>
