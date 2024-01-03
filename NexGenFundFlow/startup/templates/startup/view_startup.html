@@ -26,7 +26,6 @@
                         <li><a class="dropdown-item" href="{% url 'startup:funding_round_view' startup.id %}">Create Funding Round</a></li>
                         <li><a class="dropdown-item" href="{% url 'startup:all_funding_round_view' startup.id %}">View Funding Round</a></li>
                         <li><a class="dropdown-item" href="{% url 'startup:view_funding_request' startup.id %}">View Funding Request</a></li>
-
                     </ul>
                     </div>
                 </div>
@@ -100,10 +99,10 @@
                 </div>
             </div>
             <div class="d-flex col-4 justify-content-between mb-5">
-                <div>
+                <div class="col-1">
                     <a class="btn btn-danger" href="{% url 'startup:delete_member_view' n.id %}">Delete Member</a>
                 </div>
-                <div>
+                <div class="col-1">
                     <a class="btn btn-primary" href="{% url 'startup:edit_member_profile_view' n.id%}">View Member Profile</a>
                 </div>
             </div>
