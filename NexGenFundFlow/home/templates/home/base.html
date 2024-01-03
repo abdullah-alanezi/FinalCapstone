@@ -34,6 +34,7 @@
                   <li><hr class="dropdown-divider"></li>
                   <li><a class="dropdown-item" href="{% url 'startup:create_startup_view' %}">Create Startup</a></li>
                   <li><a class="dropdown-item" href="{% url 'startup:view_all_my_stratup_view' request.user.id %}">Startup</a></li>
+                  <li><a class="dropdown-item" href="{% url 'startup:view_all_funding_request' request.user.id %}">All Funding Request</a></li>
                   <li><a class="dropdown-item text-danger" href="{% url 'user:logout_view' %}">Logout</a></li>
                 </ul>
               </lu>

@@ -149,3 +149,10 @@ def disapproved_reqeust_view(request, request_id):
     investment_request.status = 'Disapproved'
     investment_request.save()
     return redirect('startup:view_funding_request', startup_id=investment_request.funding_round.startup.id)
+
+
+
+def view_all_funding_request(request:HttpRequest,user_id):
+    investment_requests = InvestmentOffer.objects.filter(user=user_id)
+
+    return render(request,'startup/all_funding_request.html', {"investment_requests": investment_requests})
