@@ -4,7 +4,9 @@ from startup.models import FundingRound
 from .models import InvestmentOffer , InvestmentOfferComment
 from django.contrib.auth.models import User
 
-# Create your views here.
+# Create your views here. 
+
+
 
 def all_funding_round_view(request:HttpRequest):
     funding_rounds = FundingRound.objects.all()
@@ -28,6 +30,7 @@ def funding_round_details_view(request:HttpRequest,funding_round_id):
     return render(request,"fund/funding_round_details.html",{"funding_round":funding_round,'investors':investors})
 
 def investment_requests_view(request:HttpRequest):
+    
     investors= User.objects.filter(groups__name='Investors')
 
     investment_requests = InvestmentOffer.objects.filter(user=request.user)
@@ -39,6 +42,7 @@ def investment_requests_view(request:HttpRequest):
         investment_requests = InvestmentOffer.objects.filter(user=request.user,status="Disapproved")
     if "filter" in request.GET and request.GET["filter"]=="Canceled":
         investment_requests = InvestmentOffer.objects.filter(user=request.user,status="Canceled")
+    
         
 
     

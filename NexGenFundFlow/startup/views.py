@@ -10,62 +10,72 @@ from django.shortcuts import get_object_or_404
 
 def create_startup_view(request:HttpRequest):
     massgae = None
-
-    if request.method == 'POST':
-        try:
-            new_stratup = StartUp(
-                user= request.user,
-                startup_name= request.POST['startup_name'],
-                startup_avatar=request.FILES['startup_avatar'],
-                startup_sector=request.POST['startup_sector'],
-                startup_websits=request.POST['startup_websits'],
-                startup_email=request.POST['startup_email'],
-                startup_number=request.POST['startup_number'],
-                startup_description=request.POST['startup_description'],
-                startup_founder_name=request.POST['startup_founder_name'],
-                startup_target_market=request.POST['startup_target_market']
-                )
-            new_stratup.save()
-            return redirect('startup:view_all_my_stratup_view',user_id=request.user.id)
-        except Exception as e:
-            massgae = f'somwthing went wrong {e}'
+    if request.user.has_perm("startup.add_startup"):
+        if request.method == 'POST':
+            try:
+                new_stratup = StartUp(
+                    user= request.user,
+                    startup_name= request.POST['startup_name'],
+                    startup_avatar=request.FILES['startup_avatar'],
+                    startup_sector=request.POST['startup_sector'],
+                    startup_websits=request.POST['startup_websits'],
+                    startup_email=request.POST['startup_email'],
+                    startup_number=request.POST['startup_number'],
+                    startup_description=request.POST['startup_description'],
+                    startup_founder_name=request.POST['startup_founder_name'],
+                    startup_target_market=request.POST['startup_target_market']
+                    )
+                new_stratup.save()
+                return redirect('startup:view_all_my_stratup_view',user_id=request.user.id)
+            except Exception as e:
+                massgae = f'somwthing went wrong {e}'
+    else:
+        return redirect('home:page_not_found_view')
     return render(request,'startup/create_startup.html',{'massage':massgae,'sectors':StartUp.sectors})
 
 
 def edit_startup_view(request:HttpRequest,startup_id):
     startup = StartUp.objects.get(id=startup_id)
+    if request.user.has_perm("startup.add_startup"):
+        if request.method == 'POST':
+            startup.startup_description = request.POST['startup_description']
+            startup.startup_name= request.POST['startup_name']
+            startup.startup_sector=request.POST['startup_sector']
+            startup.startup_websits=request.POST['startup_websits']
+            startup.startup_email=request.POST['startup_email']
+            startup.startup_number=request.POST['startup_number']
+            startup.startup_founder_name=request.POST['startup_founder_name']
+            startup.startup_target_market=request.POST['startup_target_market']
 
-    if request.method == 'POST':
-        startup.startup_description = request.POST['startup_description']
-        startup.startup_name= request.POST['startup_name']
-        startup.startup_sector=request.POST['startup_sector']
-        startup.startup_websits=request.POST['startup_websits']
-        startup.startup_email=request.POST['startup_email']
-        startup.startup_number=request.POST['startup_number']
-        startup.startup_founder_name=request.POST['startup_founder_name']
-        startup.startup_target_market=request.POST['startup_target_market']
+            if 'startup_avatar' in request.FILES:
+                startup.startup_avatar=request.FILES['startup_avatar']
+            
+            startup.save()
 
-        if 'startup_avatar' in request.FILES:
-            startup.startup_avatar=request.FILES['startup_avatar']
-        
-        startup.save()
-
-        return redirect('startup:view_all_my_stratup_view',user_id=request.user.id)
-
+            return redirect('startup:view_all_my_stratup_view',user_id=request.user.id)
+    else:
+        return redirect('home:page_not_found_view')
 
 
 
     return render(request,'startup/edit_startup.html',{'startup':startup,'sectors':StartUp.sectors})
 
 def view_all_my_stratup_view(request:HttpRequest,user_id):
-
-    startup = StartUp.objects.filter(user=user_id)
-
+    if request.user.has_perm("startup.add_startup"):
+        startup = StartUp.objects.filter(user=user_id)
+    else: 
+        return redirect('home:page_not_found_view')
+    
     return render(request,'startup/all_my_startup.html',{'startup':startup})
 
 def view_startup_profile_view(request:HttpRequest,startup_id):
-    startup = StartUp.objects.get(id=startup_id)
-    team = TeamMember.objects.filter(startup=startup)
+    if request.user.has_perm("startup.add_startup"):
+
+        startup = StartUp.objects.get(id=startup_id)
+        team = TeamMember.objects.filter(startup=startup)
+    else:
+        return redirect('home:page_not_found_view')
+    
     return render(request,'startup/view_startup.html',{'startup':startup,'team':team})
 
 def team_view(request:HttpRequest,startup_id):
@@ -82,28 +92,36 @@ def team_view(request:HttpRequest,startup_id):
 
 
 def add_team_member_view(request:HttpRequest,startup_id):
-    startup = StartUp.objects.get(id=startup_id)
-    massage = None
-    if request.method == 'POST':
-        member = TeamMember(
-            startup=startup,
-            team_name= request.POST['team_name'],
-            team_avatar=request.FILES['team_avatar'],
-            team_role=request.POST['team_role'],
-            team_linkdin=request.POST['team_linkdin']
-            )
-        member.save()
-        return redirect('startup:view_startup_profile_view',startup_id=startup_id)
-    
+    if request.user.has_perm("startup.add_startup"):
+        startup = StartUp.objects.get(id=startup_id)
+        massage = None
+        if request.method == 'POST':
+            member = TeamMember(
+                startup=startup,
+                team_name= request.POST['team_name'],
+                team_avatar=request.FILES['team_avatar'],
+                team_role=request.POST['team_role'],
+                team_linkdin=request.POST['team_linkdin']
+                )
+            member.save()
+            return redirect('startup:view_startup_profile_view',startup_id=startup_id)
+    else: 
+        return redirect('home:page_not_found_view')
+        
     return render(request,'startup/add_team_member.html',{'massage':massage,'startup_id':startup_id})
 
 
 
 def all_funding_round_view(request:HttpRequest,startup_id):
-    new = StartUp.objects.get(id=startup_id)
 
-    search = FundingRound.objects.filter(startup=new)
+    if request.user.has_perm("startup.add_startup"):
+        new = StartUp.objects.get(id=startup_id)
 
+        search = FundingRound.objects.filter(startup=new)
+
+    else: 
+        return redirect('home:page_not_found_view')
+    
     return render(request,'startup/view_funding_round.html',{'fund':search})
 
 
@@ -116,18 +134,24 @@ def disapprove_request_view(request, request_id):
 
 
 def funding_round_view(request:HttpRequest,startup_id):
-    sit = StartUp.objects.get(id=startup_id)
 
-    if request.method == 'POST':
-        fund = FundingRound(
-            startup=sit,
-            fund_percentage= request.POST['fund_percentage'],
-            fund_amount= request.POST['fund_amount'],
-            fund_stage= request.POST['fund_stage'],
-        )
-        fund.save()
-        return redirect('startup:all_funding_round_view',startup_id=startup_id)
-    
+    if request.user.has_perm("startup.add_startup"):
+        
+        sit = StartUp.objects.get(id=startup_id)
+
+        if request.method == 'POST':
+            fund = FundingRound(
+                startup=sit,
+                fund_percentage= request.POST['fund_percentage'],
+                fund_amount= request.POST['fund_amount'],
+                fund_stage= request.POST['fund_stage'],
+            )
+            fund.save()
+            return redirect('startup:all_funding_round_view',startup_id=startup_id)
+
+    else: 
+        return redirect('home:page_not_found_view')        
+ 
     return render(request,'startup/funding_round.html',{'stage':FundingRound.stages,'startup_id':startup_id})
 
 def approved_reqeust_view(request:HttpRequest, request_id):
@@ -139,14 +163,26 @@ def approved_reqeust_view(request:HttpRequest, request_id):
         return redirect('startup:view_funding_request', startup_id=investment_request.funding_round.startup.id)
 
 def view_funding_request(request: HttpRequest, startup_id):
+    # if request.user.has_perm("startup.add_startup"):
+
     new = StartUp.objects.get(id=startup_id)
     funding_rounds = FundingRound.objects.filter(startup=new)
     investment_requests = InvestmentOffer.objects.filter(funding_round__in=funding_rounds)
+    # else: 
+    #     return redirect('home:page_not_found_view')
+    
     return render(request, 'startup/accept_request.html', {"investment_requests": investment_requests})
 
 def view_funding_requests(request: HttpRequest, funding_id):
-    funding_rounds = FundingRound.objects.filter(startup=funding_id)
-    investment_requests = InvestmentOffer.objects.filter(funding_round__in=funding_rounds)
+
+    if request.user.has_perm("startup.add_startup"):
+
+        funding_rounds = FundingRound.objects.filter(startup=funding_id)
+        investment_requests = InvestmentOffer.objects.filter(funding_round__in=funding_rounds)
+
+    else: 
+        return redirect('home:page_not_found_view')
+    
     return render(request, 'startup/accept_request.html', {"investment_requests": investment_requests})
 
 def disapproved_reqeust_view(request, request_id):
