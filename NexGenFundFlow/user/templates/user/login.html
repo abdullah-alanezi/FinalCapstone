@@ -18,6 +18,7 @@
                         {{ massage }}
                     </div>
                 {% endif %}
+                
 
                 <form class="form-control mb-3" action="{% url 'user:login_view' %}" method="POST">
                     {% csrf_token %}
