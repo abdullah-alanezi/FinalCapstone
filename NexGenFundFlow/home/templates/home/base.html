@@ -33,7 +33,7 @@
               {% if request.user.is_authenticated %}
               <lu class="nav-item dropdown me-4">
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Welcome, Mr.{{user.username}}
+                  Welcome, Mr.{{request.user.username}}
                 </a>
                 <ul class="dropdown-menu">
                   <li><a class="dropdown-item w-50" href="{% url 'user:profile_view' request.user.id %}">Profile</a></li>
